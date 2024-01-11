@@ -5,11 +5,11 @@ from langchain.chat_models import ChatOpenAI  # Assuming ChatOpenAI is in langch
 
 class LLMFactory:
     def __init__(self, config_path):
+        load_dotenv()
         with open(config_path, 'r') as file:
             self.config = yaml.safe_load(file)
 
     def get_llm(self, llm_path):
-        load_dotenv()
         keys = llm_path.split('.')
         config = self.config
         for key in keys:
