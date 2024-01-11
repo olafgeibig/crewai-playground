@@ -9,13 +9,10 @@ class LLMFactory:
         with open(config_path, 'r') as file:
             self.config = yaml.safe_load(file)
 
-    def get_llm(self, llm_path):
-        keys = llm_path.split('.')
-        config = self.config
-        for key in keys:
-            config = config.get(key, {})
+    def get_llm(self, provider: str, model: str):
+        config = self.config.get(provider, {}).get(model, {})
         if not config:
-            raise ValueError(f"Configuration for {llm_path} not found")
+            raise ValueError(f"Configuration for {provider}.{model} not found")
 
         class_name = config.get('class')
         if not class_name:
