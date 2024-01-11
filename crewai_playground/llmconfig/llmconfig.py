@@ -1,3 +1,4 @@
+import os
 import yaml
 from langchain.chat_models import ChatOpenAI  # Assuming ChatOpenAI is in langchain.chat_models
 
@@ -20,5 +21,7 @@ class LLMFactory:
 
         # Assuming all classes are in langchain.chat_models and named as in the 'class' field
         llm_class = getattr(langchain.chat_models, class_name)
-        instance = llm_class(**{k: v for k, v in config.items() if k != 'class'})
+        # Update the parameters, resolving any environment variables for api_key
+        parameters = {k: (os.getenv(v) if k == 'api_key' else v) for k, v in config.items() if k != 'class'}
+        instance = llm_class(**parameters)
         return instance
