@@ -1,0 +1,14 @@
+crewai
+# langchain
+openai
+unstructured
+pyowm
+tools
+wikipedia
+yfinance
+sec-api
+tiktoken
+faiss-cpu
+python-dotenv
+duckduckgo-search
+python-box
