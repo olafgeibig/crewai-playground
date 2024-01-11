@@ -1,6 +1,0 @@
-llm:
-  vertexai:
-    gemini-pro:
-      model_name: gemini-pro
-      project: mygpt-383514
-      location: us-central1 

@@ -10,6 +10,16 @@ python = ">=3.11,<3.12"
 crewai = "^0.1.24"
 python-dotenv = "^1.0.0"
 duckduckgo-search = "^4.1.1"
+openai = "^1.7.1"
+unstructured = "^0.12.0"
+pyowm = "^3.3.0"
+tools = "^0.1.9"
+wikipedia = "^1.4.0"
+yfinance = "^0.2.35"
+sec-api = "^1.0.17"
+tiktoken = "^0.5.2"
+faiss-cpu = "^1.7.4"
+python-box = "^7.1.1"
 
 
 [build-system]
