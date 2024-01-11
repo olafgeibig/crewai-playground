@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import yaml
 from langchain.chat_models import ChatOpenAI  # Assuming ChatOpenAI is in langchain.chat_models
 
@@ -8,6 +9,7 @@ class LLMFactory:
             self.config = yaml.safe_load(file)
 
     def get_llm(self, llm_path):
+        load_dotenv()
         keys = llm_path.split('.')
         config = self.config
         for key in keys:
