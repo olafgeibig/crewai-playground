@@ -20,6 +20,7 @@ sec-api = "^1.0.17"
 tiktoken = "^0.5.2"
 faiss-cpu = "^1.7.4"
 python-box = "^7.1.1"
+langchain-mistralai = "^0.0.2"
 
 
 [build-system]

@@ -1,36 +1,11 @@
-import os
 from crewai import Agent, Task, Crew, Process
-from langchain.chat_models import ChatAnyscale
-from langchain.llms import Ollama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.agents import load_tools
-from dotenv import load_dotenv
+from llms import LLMFactory
 
-load_dotenv()
-
-# llm = Ollama(
-#     model="nous-capybara",
-#     base_url="https://e993-35-229-104-68.ngrok-free.app",
-#     # callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
-#     )
-llm = ChatAnyscale(
-    model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-    # model="mistralai/Mistral-7B-Instruct-v0.1",
-    api_key=os.getenv('ANYSCALE_API_KEY'),
-    # base_url=os.getenv('ANYSCALE_BASE_URL'),
-    callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
-    streaming=True
-)
-# from langchain_community.llms import VertexAI
-# llm = VertexAI(
-#     model_name="gemini-pro",
-#     location="us-central1",
-#     project="mygpt-383514",
-#     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
-#     streaming=True
-# )
-
+llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Yi-34B")
+llm.temperature = 0.1
 
 from langchain.tools import DuckDuckGoSearchRun
 search_tool = DuckDuckGoSearchRun()
