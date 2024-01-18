@@ -3,11 +3,17 @@ from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.agents import load_tools
 from llms import LLMFactory
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Yi-34B")
+# llm = LLMFactory().get_anyscale_llm("mistralai/Mixtral-8x7B-Instruct-v0.1")
+# llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")
+# llm = LLMFactory().get_azure_llm("gpt-4-1106-Preview", "gpt-4")
+llm = LLMFactory().get_openai_llm(model="mistralai/Mixtral-8x7B-Instruct-v0.1", api_key=os.getenv("DEEPINFRA_API_KEY"), base_url="https://api.deepinfra.com/v1/openai")
 llm.temperature = 0.1
 
-from langchain.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchRun
 search_tool = DuckDuckGoSearchRun()
 human_tool = load_tools(["human"])
 
@@ -67,5 +73,4 @@ crew = Crew(
 # Get your crew to work!
 result = crew.kickoff()
 
-print("-------------------------------------")
 print(result)

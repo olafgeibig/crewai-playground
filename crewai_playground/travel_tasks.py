@@ -5,12 +5,12 @@ from datetime import date
 
 class TravelTasks():
 
-  def identify_task(self, agent, origin, cities, interests, range):
+  def identify_task(self, agent, origin, cities, interests, range, hints):
     return Task(description=dedent(f"""
         Analyze and select the best places for the trip based 
         on specific criteria such as weather patterns, seasonal
         events, and travel costs. This task involves comparing
-        multiple cities, considering factors like current weather
+        multiple locations, considering factors like current weather
         conditions, upcoming cultural or seasonal events, and
         overall travel expenses. 
         
@@ -24,10 +24,11 @@ class TravelTasks():
         City Options: {cities}
         Trip Date: {range}
         Traveler Interests: {interests}
+        Traveler hints: {hints}
       """),
                 agent=agent)
 
-  def gather_task(self, agent, origin, cities, interests, range):
+  def gather_task(self, agent, origin, cities, interests, range, hints):
     return Task(description=dedent(f"""
         As a local expert on this city you must compile an 
         in-depth guide for someone traveling there and wanting 
@@ -57,7 +58,7 @@ class TravelTasks():
       """),
                 agent=agent)
 
-  def plan_task(self, agent, origin, interests, range):
+  def plan_task(self, agent, origin, interests, range, hints):
     return Task(description=dedent(f"""
         Expand this guide into a a full itinerary 
         of the given length with detailed per-day plans, including 
@@ -81,6 +82,7 @@ class TravelTasks():
         Trip Date: {range}
         Traveling from: {origin}
         Traveler Interests: {interests}
+        Traveler hints: {hints}
       """),
                 agent=agent)
 
@@ -96,13 +98,14 @@ class TravelTasks():
         anticipated weather conditions, recommended clothing and
         items to pack, and a detailed budget, ensuring THE BEST
         TRIP EVER, Be specific and give it a reason why you picked
-        # up each place, what make them special! {self.__tip_section()}
+        up each place, what make them special! {self.__tip_section()}
 
         Trip Date: {range}
         Traveling from: {origin}
         Traveler Interests: {interests}
+        Traveler hints: {hints}
       """),
-                agent=agent)
+        agent=agent)
   
   def __tip_section(self):
     return "If you do your BEST WORK, I'll tip you $100!"

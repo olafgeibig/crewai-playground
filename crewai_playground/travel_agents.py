@@ -1,27 +1,16 @@
 from crewai import Agent
-import os
 from tools.browser_tools import BrowserTools
 from tools.calculator_tools import CalculatorTools
 from tools.search_tools import SearchTools
-from tools.sec_tools import SECTools
 
-from langchain.tools.yahoo_finance_news import YahooFinanceNewsTool
-
-from langchain.chat_models import ChatOpenAI
-from langchain.llms import Ollama
-
+from llms import LLMFactory
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
-# llm = ChatOpenAI(model='gpt-3.5-turbo-1106') # Loading GPT-3.5
-# llm = ChatOpenAI(
-#     # model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-#     model="mistralai/Mistral-7B-Instruct-v0.1",
-#     api_key=os.getenv('ANYSCALE_API_KEY'),
-#     base_url=os.getenv('ANYSCALE_BASE_URL')
-# )
-# llm = Ollama(model="dolphin-agent")
-llm = Ollama(model="nous-hermes-2-solar")
+# llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")
+llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO")
+# llm = LLMFactory().get_openai_llm(model="foo",api_key="foo", base_url="https://cbszkksghhaox2-5000.proxy.runpod.net/v1")
 
 class TravelAgents():
   def travel_reviewer(self):
@@ -45,12 +34,12 @@ class TravelAgents():
 
   def local_expert(self):
     return Agent(
-        role='Local Expert at this city',
-        goal="""Provide the BEST insights about the selected city. Check the security information for the destination.
+        role='Local Expert at this destination',
+        goal="""Provide the BEST insights about the selected destination. Check the security information for the destination.
         Find all the secret tipps and amazing experiences off the beaten path.
         """,
         backstory="""A knowledgeable local guide with extensive information
-        about the city, it's attractions and customs. You know all the secrets that most tourists don't know.
+        about the destination, it's attractions and customs. You know all the secrets that most tourists don't know.
         You know the hangouts of the cool locals. You know the best activiies, security situation and the weather.""",
         llm=llm,
         tools=[

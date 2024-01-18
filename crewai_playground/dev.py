@@ -3,38 +3,30 @@ from crewai import Agent, Task, Crew, Process
 from langchain.agents import load_tools
 from dotenv import load_dotenv
 from textwrap import dedent
-from llm import LLM
+from llms import LLMFactory
+from langchain.tools import Tool
+
+llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")
 
 load_dotenv()
 
-# llm = Ollama(
-#     model="nous-hermes-2-solar",
-#     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
-#     )
-# llm = ChatAnyscale(
-#     model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-#     # model="mistralai/Mistral-7B-Instruct-v0.1",
-#     api_key=os.getenv('ANYSCALE_API_KEY'),
-#     # base_url=os.getenv('ANYSCALE_BASE_URL'),
-#     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
-#     streaming=True
+# from langchain.tools import DuckDuckGoSearchRun
+# search_tool = DuckDuckGoSearchRun()
+# human_tool = load_tools(["human"])
+# from langchain_experimental.utilities import PythonREPL
+# python_tool = Tool(
+#     name="python_repl",
+#     description="A Python shell. Use this to execute python commands. Input should be a valid python command. If you want to see the output of a value, you should print it out with `print(...)`.",
+#     func=python_repl.run,
 # )
-# from langchain_community.llms import VertexAI
-# llm = VertexAI(
-#     model_name="gemini-pro",
-#     location="us-central1",
-#     project="mygpt-383514",
-#     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
-#     streaming=True
-# )
+from langchain_community.tools.e2b_data_analysis.tool import E2BDataAnalysisTool
+e2b = E2BDataAnalysisTool(
+    on_stdout=lambda stdout: print("stdout:", stdout),
+    on_stderr=lambda stderr: print("stderr:", stderr),
+    # on_artifact=save_artifact,
+    api_key=os.getenv('E2B_API_KEY')
+)
 
-llm = LLM().get_vertexai_llm("gemini-pro")
-
-from langchain.tools import DuckDuckGoSearchRun
-search_tool = DuckDuckGoSearchRun()
-human_tool = load_tools(["human"])
-from langchain_experimental.utilities import PythonREPL
-python_tool = PythonREPL()
 
 # Define your agents with roles and goals
 manager = Agent(
@@ -46,6 +38,7 @@ manager = Agent(
   You have a modern, agile management style that empowers team members. You bring the
   skills of a team together. You create the project plan and assign tasks to the team
   members according to the plan. 
+  
   """,
   verbose=True,
   allow_delegation=True,
@@ -63,7 +56,7 @@ po = Agent(
   """,
   verbose=True,
   allow_delegation=True,
-  tools=[]+human_tool,
+  # tools=[e2b],
   llm=llm
 )
 dev = Agent(
@@ -77,7 +70,7 @@ dev = Agent(
   """,
   verbose=True,
   allow_delegation=False,
-  # tools=[]+python_tool,
+  tools=[e2b],
   llm=llm
 )
 
