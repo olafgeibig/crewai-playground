@@ -4,4 +4,6 @@ __pycache__
 .vscode
 .aider*
 .venv
+docs
+_.aifs
 poetry.lock

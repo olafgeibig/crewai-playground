@@ -5,7 +5,12 @@ import requests
 from crewai import Agent, Task
 from langchain.tools import tool
 from unstructured.partition.html import partition_html
-
+from llms import LLMFactory
+from dotenv import load_dotenv
+load_dotenv()
+llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")
+# llm = LLMFactory().get_ollama_llm("openhermes-agent")
+# llm = LLMFactory().get_anyscale_llm("mistralai/Mistral-7B-Instruct-v0.1")
 
 class BrowserTools():
 
@@ -27,6 +32,7 @@ class BrowserTools():
           'Do amazing researches and summaries based on the content you are working with',
           backstory=
           "You're a Principal Researcher at a big company and you need to do a research about a given topic.",
+          llm=llm,
           allow_delegation=False)
       task = Task(
           agent=agent,

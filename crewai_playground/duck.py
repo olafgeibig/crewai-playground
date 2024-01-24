@@ -7,10 +7,10 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-# llm = LLMFactory().get_anyscale_llm("mistralai/Mixtral-8x7B-Instruct-v0.1")
-# llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")
+#llm = LLMFactory().get_anyscale_llm("mistralai/Mixtral-8x7B-Instruct-v0.1")
+llm = LLMFactory().get_ollama_llm(model="neuralbeagle-agent", base_url="http://192.168.2.50:11434")
 # llm = LLMFactory().get_azure_llm("gpt-4-1106-Preview", "gpt-4")
-llm = LLMFactory().get_openai_llm(model="mistralai/Mixtral-8x7B-Instruct-v0.1", api_key=os.getenv("DEEPINFRA_API_KEY"), base_url="https://api.deepinfra.com/v1/openai")
+# llm = LLMFactory().get_openai_llm(model="mistralai/Mixtral-8x7B-Instruct-v0.1", api_key=os.getenv("DEEPINFRA_API_KEY"), base_url="https://api.deepinfra.com/v1/openai")
 llm.temperature = 0.1
 
 from langchain_community.tools import DuckDuckGoSearchRun
