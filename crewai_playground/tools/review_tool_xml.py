@@ -18,11 +18,18 @@ class ReviewToolFactory2():
         - Tool: A Tool object that can be used for reviewing a result
         """
         def _review(command: str):
+import re
+
             try:
-                xml = XmlSlurper.create(command)
+                # Extract XML content from the command string
+                xml_content_match = re.search(r'<function.*?</function>', command, re.DOTALL)
+                if not xml_content_match:
+                    raise ValueError("No valid XML content found in the command string.")
+                xml_content = xml_content_match.group(0)
+                xml = XmlSlurper.create(xml_content)
                 topic = xml.topic
                 content = xml.content
-            except ElementTree.ParseError as e:
+            except (ElementTree.ParseError, ValueError) as e:
                 print(f"ERROR CONTENT: {command}END-OF-CONTENT")
                 return f"Tool error: command had wrong format. Must be only a valid XML according to the tool specification. Reason: {e.msg}"
 
