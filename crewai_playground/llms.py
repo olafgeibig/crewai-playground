@@ -34,7 +34,7 @@ class LLMFactory:
         return ChatOllama(
             model=model,
             base_url=base_url,
-            # callbacks=CallbackManager([StreamingStdOutCallbackHandler()]),
+            callbacks=CallbackManager([StreamingStdOutCallbackHandler()]),
         )
     
     def get_anyscale_llm(self, model: str):

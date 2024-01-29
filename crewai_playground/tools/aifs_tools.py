@@ -23,7 +23,9 @@ class AifsToolFactory:
             return result
         
         return Tool(
-            name=f"Search the documents inside directory {path}",
-            description="A tool that searches documents with valuable information and returns semantically relevant excerpts from them.",
+            name="aifs-tool",
+            description="""
+            A tool that performs a semantic search of documents with valuable information and returns semantically 
+            relevant excerpts from them. The argument is the query string.""",
             func=_search
         )
