@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"
-crewai = "^0.1.32"
+crewai = "^0.5.5"
 python-dotenv = "^1.0.0"
 duckduckgo-search = "^4.1.1"
 openai = "^1.7.1"
@@ -27,6 +27,11 @@ e2b = "^0.13.15"
 aifs = "^0.0.5"
 chromadb = "^0.4.22"
 pyslurpers = "^0.1.0"
+phidata = "^2.3.21"
+# added to speed up phidata depedency botocore
+moto = "*"
+boto3 = "*"
+urllib3 = "^2.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.4"

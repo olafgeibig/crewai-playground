@@ -1,6 +1,6 @@
 from aifs import search
 from langchain.tools import Tool
-
+from textwrap import dedent
 class AifsToolFactory:
     @staticmethod
     def get_search_tool(path: str, max_results: int = 5) -> Tool:
@@ -24,8 +24,8 @@ class AifsToolFactory:
         
         return Tool(
             name="aifs-tool",
-            description="""
-            A tool that performs a semantic search of documents with valuable information and returns semantically 
-            relevant excerpts from them. The argument is the query string.""",
+            description=dedent(
+"""A tool that performs a semantic search of documents with valuable information and returns semantically 
+relevant excerpts from them. The argument is the query string."""),
             func=_search
         )

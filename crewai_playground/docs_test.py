@@ -10,11 +10,13 @@ load_dotenv()
 
 # llm = LLMFactory().get_ollama_llm(model="neuralbeagle-agent", base_url="http://192.168.2.50:11434")
 # llm = LLMFactory().get_ollama_llm(model="solar-agent")
-llm = LLMFactory().get_deepinfra_llm("mistralai/Mistral-7B-Instruct-v0.1")
+# llm = LLMFactory().get_deepinfra_llm("mistralai/Mistral-7B-Instruct-v0.1")
+llm = LLMFactory().get_deepinfra_llm("cognitivecomputations/dolphin-2.6-mixtral-8x7b")
 # llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO")
 # llm = LLMFactory().get_mistralai_llm("mistral-medium")
 # llm = LLMFactory().get_azure_llm(model="gpt-4-1106-Preview", deployment_id="gpt-4")
-llm.temperature=0.5
+# llm = LLMFactory().get_ollama_llm("solar-agent")
+llm.temperature=0.1
 
 from langchain.agents import load_tools
 human_tool = load_tools(["human"])
@@ -66,6 +68,7 @@ class AgentCrew:
             The task is finished if the search gave good results. Write "RESEARCH FINISHED" in the end
             and pass on the full result as you final answer.
         """),
+            expected_output="The research result",
             agent = research_agent
         )
 
@@ -79,18 +82,21 @@ class AgentCrew:
             Your workflow must follow this logic steps:
             1. Write the article
             2. Review the article with the review-tool
-            3. If the article is rejected, adjust it accrding to the review feedback. The go back to step 2
+            3. If the article is rejected, you must adjust it according to the review feedback. Then go back to step 2
             4. If the article is approved, you are finished and return the article as your final result
 
-            Use the review-tool to review the written full aricle as the content and the topic as its topic.
-            The tool shall review  if the full article matches the topic. Iterate over reviews if necessary until 
-            the reviewer approves.
+            Use the review-tool to review the written full aricle. Stricly follow the instructions
+            in the tool's description how to call it.
+            The tool shall review if the full article matches the topic. Iterate over crycles of review and revision
+            if necessary until the reviewer approves.
 
             IMPORTANT: Always return a full article in the end as you final response an the write WRITING FINISHED.
             As a last step ask the human for review and go into another iteration if the human rejects. 
             Pass on the full work result and not only a summary. I will give you lots of love and kudos if you do
             everything right. I will promote you on Twitter then.
             """),
+            expected_output="The full final article",
+            context=[research_task],
             agent = writer_agent
         )
 
