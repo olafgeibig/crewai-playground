@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "crewai-playground"
+version = "0.1.0"
+description = ""
+authors = ["Olaf <olaf@pobox.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+crewai = "^0.5.5"
+python-dotenv = "^1.0.0"
+duckduckgo-search = "^4.1.1"
+openai = "^1.7.1"
+unstructured = "^0.12.0"
+pyowm = "^3.3.0"
+tools = "^0.1.9"
+wikipedia = "^1.4.0"
+yfinance = "^0.2.35"
+sec-api = "^1.0.17"
+tiktoken = "^0.5.2"
+faiss-cpu = "^1.7.4"
+python-box = "^7.1.1"
+langchain-mistralai = "^0.0.2"
+langchain-community = "^0.0.12"
+langchain-experimental = "^0.0.49"
+e2b = "^0.13.15"
+aifs = "^0.0.5"
+chromadb = "^0.4.22"
+pyslurpers = "^0.1.0"
+phidata = "^2.3.21"
+# added to speed up phidata depedency botocore
+#moto = "*"
+#boto3 = "*"
+#urllib3 = "^2.2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

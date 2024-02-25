@@ -16,12 +16,7 @@ class ReviewToolFactory():
         Returns:
         - Tool: A Tool object that can be used for reviewing a result
         """
-        def _review(command: str):
-            try:
-                task, result = command.split("|")
-            except ValueError:
-                return "Tool error: command had wrong format. Must be task|result"
-
+        def _review(task: str, result: str) -> str:
             messages = [
                 SystemMessage(content="""
                     You are an experienced reviewer with a very broad knowledge. You give constructive feedback. You evalute your criticism step by step.
@@ -36,14 +31,16 @@ class ReviewToolFactory():
                     """),
             ]
             review = llm.invoke(messages)
+            print("YYYYYYYY")
+            print(review)
             return review.content
 
         return Tool(
             name="review-tool",
             description="""
-            Review a result from working on a task and give constructive feedback. Approves or rejects the result.
-            Strictly obey the input format of the tool with two arguments task and result concatenated and seperated by a pipe sign ("|"): task|result. 
-            The task is the task that was worked on and result is the final result that shall be reviewed.
+            Review a result from working on a task and give constructive feedback. Approves or rejects the result. Parameters:
+            - task: the full task that was worked on
+            - result: the result that was produced for the task
             """,
             func=_review
         )

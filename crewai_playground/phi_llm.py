@@ -45,4 +45,20 @@ class ChatPhidataAdapter(BaseChatModel):
         """Getter for the Ollama instance."""
         return self.ollama
 
-    
+    def _generate(self, prompt: str, **kwargs) -> str:
+        """
+        Generates text based on the given prompt using the Ollama model.
+
+        :param prompt: The input text prompt for generation.
+        :param kwargs: Additional keyword arguments for the Ollama generate_text method.
+        :return: The generated text as a string.
+        """
+        return self.ollama.generate_text(prompt, **kwargs)
+
+    def _llm_type(self) -> str:
+        """
+        Returns the type of language model used.
+
+        :return: A string representing the type of language model.
+        """
+        return "Ollama"

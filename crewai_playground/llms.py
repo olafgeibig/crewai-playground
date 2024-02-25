@@ -1,9 +1,9 @@
 from langchain_community.chat_models import ChatOllama
-from langchain_openai.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_community.chat_models import ChatAnyscale
 from langchain_mistralai.chat_models import ChatMistralAI
 from langchain_openai import AzureChatOpenAI
-# from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from dotenv import load_dotenv
@@ -13,16 +13,20 @@ class LLMFactory:
     def __init__(self):
         load_dotenv()
 
-    def get_openai_llm(self, model: str, base_url="http://api.openai.com/v1", api_key=os.getenv('OPEN_API_KEY')):
+    def get_openai_llm(self, model: str, base_url="https://api.openai.com/v1", api_key=os.getenv('OPEN_API_KEY')):
         """OpenAI models: 
-        - gpt-4-1106-preview"""
+        - gpt-4-0125-preview
+        - gpt-4-1106-preview
+        - gpt-4-vision-preview
+        - gpt-3.5-turbo-0125
+        - gpt-3.5-turbo-1106"""
         return ChatOpenAI(
             model=model,
             api_key=api_key,
             base_url=base_url,
             callbacks=CallbackManager([StreamingStdOutCallbackHandler()]),
             streaming=True
-        )  
+        ) 
 
     def get_ollama_llm(self, model: str, base_url="http://127.0.0.1:11434"):
         """
@@ -40,7 +44,8 @@ class LLMFactory:
     def get_anyscale_llm(self, model: str):
         """Anyscale models: 
         - mistralai/Mixtral-8x7B-Instruct-v0.1
-        - mistralai/Mistral-7B-Instruct-v0.1"""
+        - mistralai/Mistral-7B-Instruct-v0.1
+        - mlabonne/NeuralHermes-2.5-Mistral-7B"""
         return ChatAnyscale(
             model=model,
             api_key=os.getenv('ANYSCALE_API_KEY'),
@@ -62,7 +67,8 @@ class LLMFactory:
         """Together AI models: 
         - mistralai/Mistral-7B-Instruct-v0.2
         - NousResearch/Nous-Hermes-2-Yi-34B 
-        - NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO"""
+        - NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO
+        - teknium/OpenHermes-2p5-Mistral-7B"""
         return ChatOpenAI(
             model=model, 
             api_key=os.getenv('TOGETHERAI_API_KEY'),
@@ -107,12 +113,14 @@ class LLMFactory:
         )
 
     # install langchain-google-genai
-    # def get_google_ai_llm(self, model: str):
-    #     """Goolgle AI models: gemini-pro"""
-    #     return GoogleGenerativeAI(
-    #         model=model, 
-    #         google_api_key=os.getenv('GOOGLE_AI_API_KEY'),
-    #     )
+    def get_google_ai_llm(self, model: str):
+        """Goolgle AI models: gemini-pro"""
+        return GoogleGenerativeAI(
+            model=model, 
+            google_api_key=os.getenv('GOOGLE_AI_API_KEY'),
+            callbacks=CallbackManager([StreamingStdOutCallbackHandler()]),
+            streaming=True
+       )
 
 # from langchain_community.llms import VertexAI
 # llm = VertexAI(

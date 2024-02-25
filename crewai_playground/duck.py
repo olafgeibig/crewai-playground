@@ -6,12 +6,22 @@ from llms import LLMFactory
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
-#llm = LLMFactory().get_anyscale_llm("mistralai/Mixtral-8x7B-Instruct-v0.1")
-# llm = LLMFactory().get_ollama_llm(model="neuralbeagle-agent", base_url="http://192.168.2.50:11434")
-llm = LLMFactory().get_openai_llm(model="neuralbeagle-agent", base_url="http://localhost:11434/v1/", api_key="foo")
+from langchain_openai import ChatOpenAI
+# llm = ChatOpenAI(temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
+# llm = LLMFactory().get_anyscale_llm("mistralai/Mixtral-8x7B-Instruct-v0.1")
+# llm = LLMFactory().get_ollama_llm(model="openhermes-agent:latest") #, base_url="http://192.168.2.50:11434")
+# llm = LLMFactory().get_openai_llm(model="phi-2-openhermes-2.5:2.7B-Q5_K_M", base_url="http://localhost:11434/v1/", api_key="foo")
 # llm = LLMFactory().get_azure_llm("gpt-4-1106-Preview", "gpt-4")
 # llm = LLMFactory().get_openai_llm(model="mistralai/Mixtral-8x7B-Instruct-v0.1", api_key=os.getenv("DEEPINFRA_API_KEY"), base_url="https://api.deepinfra.com/v1/openai")
+# llm = LLMFactory().get_google_ai_llm("gemini-pro")
+# llm = LLMFactory().get_together_ai_llm("teknium/OpenHermes-2p5-Mistral-7B")
+# llm = LLMFactory().get_openai_llm(model="mistralai/Mistral-7B-Instruct-v0.1", api_key=os.getenv("TOGETHERAI_API_KEY"), base_url=os.getenv("TOGETHERAI_BASE_URL"))
+# llm = LLMFactory().get_anyscale_llm("mistralai/Mistral-7B-Instruct-v0.1")
+from langchain_experimental.llms.ollama_functions import OllamaFunctions
+# llm_func =  OllamaFunctions(model="neuralbeagle-agent:latest")
+# llm_func = LLMFactory().get_openai_llm(model="gpt-4-0125-preview")
+# llm = llm_func
+llm_func = llm
 llm.temperature = 0.1
 
 from langchain_community.tools import DuckDuckGoSearchRun
@@ -25,12 +35,13 @@ researcher = Agent(
   backstory="""You are a Senior Research Analyst at a leading tech think tank.
   Your expertise lies in identifying emerging trends and technologies in AI and
   data science. You have a knack for dissecting complex data and presenting
-  actionable insights. You ask the human for feedback if the result of a research is rekevant for the report.""",
+  actionable insights. You ask the human for feedback if the result of a research is relevant for the report.""",
   verbose=True,
   allow_delegation=False,
   # Passing human tools to the agent
-  tools=[search_tool]+human_tool,
-  llm=llm
+  tools=[search_tool],
+  llm=llm,
+  function_calling_llm=llm_func
 )
 writer = Agent(
   role='Tech Content Strategist',
@@ -40,7 +51,8 @@ writer = Agent(
   the tech industry, you transform complex concepts into compelling narratives.""",
   verbose=True,
   allow_delegation=True,
-  llm=llm
+  llm=llm,
+  function_calling_llm=llm_func
 )
 
 # Create tasks for your agents
@@ -50,7 +62,7 @@ task1 = Task(
   Identify key trends, breakthrough technologies, and potential industry impacts.
   Compile your findings in a detailed report. 
   Make sure to check with the human if the draft is good before returning your Final Answer.
-  Your final answer MUST be a full analysis report""",
+  Your final answer MUST be a full analysis report.""",
   agent=researcher
 )
 
@@ -68,7 +80,7 @@ task2 = Task(
 crew = Crew(
   agents=[researcher, writer],
   tasks=[task1, task2],
-  verbose=0
+  verbose=1
 )
 
 # Get your crew to work!

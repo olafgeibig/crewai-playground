@@ -4,6 +4,10 @@ __pycache__
 .vscode
 .aider*
 .venv
+.pytest_cache
 docs
 _.aifs
 poetry.lock
+.pdm-python
+pdm.lock
+game.py

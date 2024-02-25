@@ -4,21 +4,24 @@ from crewai import Task
 from textwrap import dedent
 from llms import LLMFactory
 from tools.aifs_tools import AifsToolFactory
-from crewai_playground.tools.review_tool import ReviewToolFactory
+from tools.review_tool import ReviewToolFactory
 from dotenv import load_dotenv
 load_dotenv()
 
 # llm = LLMFactory().get_ollama_llm(model="neuralbeagle-agent", base_url="http://192.168.2.50:11434")
 # llm = LLMFactory().get_ollama_llm(model="solar-agent")
-llm = LLMFactory().get_deepinfra_llm("mistralai/Mistral-7B-Instruct-v0.1")
-# llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO")
+# llm = LLMFactory().get_deepinfra_llm("mistralai/Mistral-7B-Instruct-v0.1")
+llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO")
 # llm = LLMFactory().get_mistralai_llm("mistral-medium")
 # llm = LLMFactory().get_azure_llm(model="gpt-4-1106-Preview", deployment_id="gpt-4")
 # llm = LLMFactory().get_ollama_llm(model="dolphin-2.6-mistral-dpo-laser:7B-Q5_K_M")
-# llm = LLMFactory().get_ollama_llm(model="neuralbeagle-agent")
+# llm = LLMFactory().get_ollama_llm(model="openhermes-agent")
 # llm = LLMFactory().get_deepinfra_llm("cognitivecomputations/dolphin-2.6-mixtral-8x7b")
 # llm = LLMFactory().get_anyscale_llm("mistralai/Mistral-7B-Instruct-v0.1")
-llm.temperature=0.1
+# llm = LLMFactory().get_together_ai_llm("teknium/OpenHermes-2p5-Mistral-7B")
+# llm = LLMFactory().get_ollama_llm(model="memgpt-agent:7B-Q5_K_M")
+# llm = LLMFactory().get_openai_llm(model="gpt-4-1106-preview")
+llm.temperature=0.7
 # llm.num_ctx=4096
 
 from langchain.agents import load_tools
@@ -43,7 +46,7 @@ are always solely based on the researched findings.
             llm=llm,
             allow_delegation=False,
             tools=[
-                AifsToolFactory.get_search_tool("./crewai_playground/docs/agents", 10),
+                AifsToolFactory.get_search_tool("./crewai_playground/docs/agents", 30),
             ]
         )
 
@@ -63,7 +66,7 @@ do a lot of software and AI experiments in you spare time.
             verbose=True,
             allow_delegation=False,
             llm=llm,
-            tools=[ReviewToolFactory.get_review_tool(llm)]
+            tools=[]+human_tool
         )
 
         research_task = Task(description=dedent(f"""\
@@ -87,15 +90,15 @@ The article should have a decent legth and good level of detail. Should be 1000 
 
 Your workflow must follow this logic steps:
 1. Write the article
-2. Review the article with the "review-tool"
+2. Ask the human to review your article
 3. If the article is rejected, you must adjust it according to the review feedback. Then go back to step 2
 4. If the article is approved, you are finished and return the article as your final result
-
-Use the "review-tool" to get a review of your full aricle. Stricly follow the instructions \
-in the tool's description how to call it. \
-The tool shall review if the full article matches the topic. Iterate over crycles of review and revision \
-if necessary until the reviewer approves.
             """),
+# Use the "review-tool" to get a review of your full aricle. Stricly follow the instructions \
+# in the tool's description how to call it. \
+# The tool shall review if the full article matches the topic. Iterate over crycles of review and revision \
+# if necessary until the reviewer approves.
+
             expected_output="The full final article",
             context=[research_task],
             agent = writer_agent

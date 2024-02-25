@@ -20,6 +20,8 @@ class AifsToolFactory:
                 path=path,
                 max_results=max_results
             )
+            print("XXXXXXX")
+            print(result)
             return result
         
         return Tool(
