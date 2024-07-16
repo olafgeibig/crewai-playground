@@ -1,0 +1,20 @@
+llm:
+  provider: ollama
+  config:
+    model: 'olafgeibig/nous-hermes2pro:Q5_K_M'
+    temperature: 0.5
+    top_p: 1
+    stream: true
+    base_url: http://localhost:11434
+
+# vectordb:
+#   provider: chroma
+#   config:
+#     collection_name: 'storm'
+#     dir: db
+#     allow_reset: true
+
+# embedder:
+#   provider: huggingface
+#   config:
+#     model: 'jinaai/jina-embeddings-v2-base-en'

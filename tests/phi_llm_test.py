@@ -1,5 +1,5 @@
 import pytest
-from crewai_playground.phi_llm import ChatPhidataAdapter
+from src.phi_llm import ChatPhidataAdapter
 from langchain_core.language_models.base import LanguageModelInput
 from langchain_core.messages import BaseMessage
 

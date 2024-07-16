@@ -1,0 +1,1 @@
+This is the final version of the Wikipedia article on Autonomous agents driven by LLMs, polished and ready for publication, with all necessary corrections and improvements.

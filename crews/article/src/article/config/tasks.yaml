@@ -1,0 +1,35 @@
+research_task:
+  description: >
+    Conduct a thorough research about {topic}. Make sure you find any interesting
+    and relevant information given the current year is 2024.
+  expected_output: >
+    A list with 10 bullet points of the most relevant information about {topic}.
+
+conversation_task:
+  description: >
+    Simulate an expert dialogue about {topic}, based on the research findings. Use the information
+    to ask and answer in-depth questions, exploring different perspectives and nuances.
+  expected_output: >
+    A comprehensive dialogue transcript that covers diverse insights and perspectives on {topic}.
+
+outline_task:
+  description: >
+    Create a detailed outline for a Wikipedia article on {topic}. The outline should
+    organize the information from the simulated conversations into logical sections, including
+    headings, subheadings, and bullet points.
+  expected_output: >
+    A structured outline ready for article expansion, with clear organization and coverage of all key points on {topic}.
+
+writing_task:
+  description: >
+    Expand the outline into a full-length, comprehensive Wikipedia article about {topic}. Ensure
+    the article is engaging, informative, and adheres to Wikipedia's content guidelines.
+  expected_output: >
+    A complete Wikipedia article draft on {topic}, incorporating detailed information, citations, and a coherent narrative structure.
+
+revision_task:
+  description: >
+    Review the article draft for accuracy, coherence, and adherence to Wikipedia's style and content guidelines.
+    Make necessary revisions to ensure the article meets the highest standards of quality.
+  expected_output: >
+    The final version of the Wikipedia article on {topic}, polished and ready for publication, with all necessary corrections and improvements.
