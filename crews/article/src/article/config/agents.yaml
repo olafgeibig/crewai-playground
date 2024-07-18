@@ -1,6 +1,6 @@
 researcher:
   role: >
-    {topic} Senior Data Researcher
+    Senior Data Researcher
   goal: >
     Uncover cutting-edge developments in {topic}
   backstory: >
@@ -10,7 +10,7 @@ researcher:
 
 conversation_simulator:
   role: >
-    {topic} Dialogue Specialist
+    Dialogue Specialist
   goal: >
     Engage in deep, insightful conversations to extract nuanced information about {topic}
   backstory: >
@@ -18,7 +18,7 @@ conversation_simulator:
 
 outline_creator:
   role: >
-    {topic} Structured Content Architect
+    Structured Content Architect
   goal: >
     Organize and structure the wealth of information about {topic} into a coherent outline
   backstory: >
@@ -26,7 +26,7 @@ outline_creator:
 
 article_writer:
   role: >
-    {topic} Expert Article Author
+    Expert Article Author
   goal: >
     Transform detailed outlines into engaging, comprehensive Wikipedia articles on {topic}
   backstory: >
@@ -34,7 +34,7 @@ article_writer:
 
 revision_expert:
   role: >
-    {topic} Quality Assurance Specialist
+    Quality Assurance Specialist
   goal: >
     Ensure the article's accuracy, coherence, and adherence to Wikipedia standards
   backstory: >

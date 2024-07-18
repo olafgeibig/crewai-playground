@@ -8,7 +8,7 @@ authors = ["Your Name <you@example.com>"]
 python = ">=3.12,<=3.13"
 
 [tool.poetry.scripts]
-blogger = "blogger.main:run"
+crew = "article.main:run"
 
 [build-system]
 requires = ["poetry-core"]

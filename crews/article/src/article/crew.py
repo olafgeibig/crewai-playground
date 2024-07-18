@@ -1,8 +1,9 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-
 from crewai_tools import SerperDevTool, WebsiteSearchTool
-from llms import LLMFactory
+from langchain_groq import ChatGroq
+from dotenv import load_dotenv
+import os
 
 @CrewBase
 class ArticleCrew():
@@ -15,7 +16,9 @@ class ArticleCrew():
 			SerperDevTool(),
 			WebsiteSearchTool()
 		]
-		self.llm = LLMFactory().get_together_ai_llm("mistralai/Mistral-7B-Instruct-v0.2")
+		# load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../../.env'))
+		load_dotenv()
+		self.llm = ChatGroq(model_name="llama3-groq-8b-8192-tool-use-preview")
 
 	@agent
 	def create_researcher_agent(self) -> Agent:
@@ -64,7 +67,7 @@ class ArticleCrew():
 	def research_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['research_task'],
-			agent=self.researcher(),
+			agent=self.create_researcher_agent(),
 			output_file='research_findings.md'
 		)
 
@@ -72,7 +75,7 @@ class ArticleCrew():
 	def conversation_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['conversation_task'],
-			agent=self.conversation_simulator(),
+			agent=self.create_conversation_simulator_agent(),
 			output_file='conversation_transcript.md'
 		)
 
@@ -80,7 +83,7 @@ class ArticleCrew():
 	def outline_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['outline_task'],
-			agent=self.outline_creator(),
+			agent=self.create_outline_creator_agent(),
 			output_file='article_outline.md'
 		)
 
@@ -88,7 +91,7 @@ class ArticleCrew():
 	def writing_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['writing_task'],
-			agent=self.article_writer(),
+			agent=self.create_article_writer_agent(),
 			output_file='wikipedia_article_draft.md'
 		)
 
@@ -96,7 +99,7 @@ class ArticleCrew():
 	def revision_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['revision_task'],
-			agent=self.revision_expert(),
+			agent=self.create_revision_expert_agent(),
 			output_file='final_wikipedia_article.md'
 		)
 	
