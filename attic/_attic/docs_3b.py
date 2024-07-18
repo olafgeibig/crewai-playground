@@ -3,7 +3,7 @@ from crewai import Agent
 from crewai import Task
 from crewai_tools.tools.rag.rag_tool import RagTool
 from textwrap import dedent
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 from tools.aifs_tools import AifsToolFactory
 from tools.review_tool import ReviewToolFactory
 from dotenv import load_dotenv

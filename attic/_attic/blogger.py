@@ -4,7 +4,7 @@ from tools.browser_tools import BrowserTools
 from tools.search_tools import SearchTools
 from crewai import Task
 from textwrap import dedent
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 from dotenv import load_dotenv
 load_dotenv()
 

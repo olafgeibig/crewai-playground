@@ -5,8 +5,7 @@ description = "article using crewAI"
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<=3.13"
-crewai = {extras = ["tools"], version = "^0.22.2"}
+python = ">=3.12,<=3.13"
 
 [tool.poetry.scripts]
 blogger = "blogger.main:run"

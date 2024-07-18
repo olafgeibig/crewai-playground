@@ -5,8 +5,7 @@ description = "storm using crewAI"
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.10,<=3.13"
-crewai = {extras = ["tools"], version = "^0.22.2"}
+python = ">=3.12,<=3.13"
 embedchain = {extras = ["together"], version = "^0.1.94"}
 sentence-transformers = "^2.5.1"
 langchain-anthropic = "^0.1.4"

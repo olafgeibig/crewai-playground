@@ -5,7 +5,7 @@ import requests
 from crewai import Agent, Task
 from langchain.tools import tool
 from unstructured.partition.html import partition_html
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 from dotenv import load_dotenv
 load_dotenv()
 llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")

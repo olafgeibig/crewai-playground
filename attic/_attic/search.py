@@ -2,7 +2,7 @@ from crewai import Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import ScrapeWebsiteTool
 from langchain.agents import load_tools
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 import os
 from dotenv import load_dotenv
 load_dotenv()

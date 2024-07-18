@@ -2,9 +2,9 @@ from crewai import Crew
 from crewai import Agent
 from crewai import Task
 from textwrap import dedent
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 from tools.aifs_tools import AifsToolFactory
-from src.tools.review_tool import ReviewToolFactory
+from attic.tools.review_tool import ReviewToolFactory
 from dotenv import load_dotenv
 load_dotenv()
 

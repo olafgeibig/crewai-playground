@@ -3,9 +3,9 @@ from crewai import Agent, Task, Crew, Process
 from langchain.agents import load_tools
 from dotenv import load_dotenv
 from textwrap import dedent
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 from langchain.tools import Tool
-from src.tools.attic.code_interpreter_tools import CodeInterpreterTool
+from attic.tools.attic.code_interpreter_tools import CodeInterpreterTool
 
 llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")
 # llm = LLMFactory().get_anyscale_llm("mistralai/Mixtral-8x7B-Instruct-v0.1")

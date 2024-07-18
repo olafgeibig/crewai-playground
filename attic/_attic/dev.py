@@ -3,7 +3,7 @@ from crewai import Agent, Task, Crew, Process
 from langchain.agents import load_tools
 from dotenv import load_dotenv
 from textwrap import dedent
-from src.utils.llms import LLMFactory
+from attic.utils.llms import LLMFactory
 from langchain.tools import Tool
 
 llm = LLMFactory().get_ollama_llm("neuralbeagle-agent")

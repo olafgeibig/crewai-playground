@@ -1,7 +1,7 @@
 from crewai import Agent
-from src.tools.browser_tools import BrowserTools
-from src.tools.calculator_tools import CalculatorTools
-from src.tools.search_tools import SearchTools
+from attic.tools.browser_tools import BrowserTools
+from attic.tools.calculator_tools import CalculatorTools
+from attic.tools.search_tools import SearchTools
 
 from utils.llms import LLMFactory
 import os
