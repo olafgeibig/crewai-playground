@@ -1,20 +1,23 @@
 from crewai import Agent, Task, Crew
-from langchain.llms import OpenAI
+from langchain_openai import ChatOpenAI
+from crewai_tools import SerperDevTool, WebsiteSearchTool
 
 def create_simple_agent():
     return Agent(
-        role='Simple Agent',
-        goal='Perform simple tasks and respond to queries',
-        backstory='I am a helpful AI assistant created to assist with various tasks.',
+        role='Websearch Agent',
+        goal='Research the content of a webpages',
+        backstory='I am a web researcher.',
         verbose=True,
-        llm=OpenAI(temperature=0.7)
+        llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.7),
+        tools=[ WebsiteSearchTool(website="https://www.heise.de/news/Weltweiter-IT-Ausfall-Flughaefen-Banken-und-Geschaefte-betroffen-9806343.html")]
     )
 
 def main():
     simple_agent = create_simple_agent()
     task = Task(
-        description="Say hello to the world",
-        agent=simple_agent
+        description="Summarize the content of a webpage",
+        agent=simple_agent,
+        expected_output="a search result"
     )
     crew = Crew(
         agents=[simple_agent],
