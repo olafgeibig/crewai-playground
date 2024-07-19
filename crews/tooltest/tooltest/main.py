@@ -21,7 +21,9 @@ def main():
         tasks=[task],
         verbose=2
     )
+    print("Running the agent...")
     result = crew.kickoff()
+    print("Agent's response:")
     print(result)
 
 if __name__ == "__main__":
