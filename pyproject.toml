@@ -15,6 +15,7 @@ storm = { path="./crews/storm" }
 # shared dependencies
 crewai = {extras = ["tools"], version = "^0.36.1"}
 langchain-groq = "^0.1.6"
+langchain-openai = "^0.1.17"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"

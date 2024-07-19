@@ -1,11 +1,11 @@
-llm:
-  provider: ollama
-  config:
-    model: 'olafgeibig/nous-hermes2pro:Q5_K_M'
-    temperature: 0.5
-    top_p: 1
-    stream: true
-    base_url: http://localhost:11434
+# llm:
+#   provider: ollama
+#   config:
+#     model: 'olafgeibig/nous-hermes2pro:Q5_K_M'
+#     temperature: 0.5
+#     top_p: 1
+#     stream: true
+#     base_url: http://localhost:11434
 
 # vectordb:
 #   provider: chroma

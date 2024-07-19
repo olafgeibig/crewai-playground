@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool, WebsiteSearchTool
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
@@ -16,9 +17,9 @@ class ArticleCrew():
 			SerperDevTool(),
 			WebsiteSearchTool()
 		]
-		# load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../../.env'))
-		load_dotenv()
-		self.llm = ChatGroq(model_name="llama3-groq-8b-8192-tool-use-preview")
+		load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../../.env'))
+		# self.llm = ChatGroq(model_name="llama3-groq-8b-8192-tool-use-preview")
+		self.llm = ChatOpenAI(model="gpt-4o-mini")
 
 	@agent
 	def create_researcher_agent(self) -> Agent:
