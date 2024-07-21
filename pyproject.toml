@@ -21,6 +21,9 @@ langchain-openai = "^0.1.17"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
 ruff = "^0.5.2"       
+mypy = "^1.11.0"
+black = "^24.4.2"
+ptyme-track = "^0.3.0"
 
 [build-system]
 requires = ["poetry-core"]

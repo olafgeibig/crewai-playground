@@ -108,5 +108,5 @@
     //     "stack=67108864"
     // ],
     "remoteUser": "vscode",
-    "workspaceFolder": "<<WORKSPACE DIRECTORY>>"
+    // "workspaceFolder": "<<WORKSPACE DIRECTORY>>"
 }
