@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "obsidian"
+version = "0.1.0"
+description = "obsidian using crewAI"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<=3.13"
+
+[tool.poetry.scripts]
+crew = "obsidian.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

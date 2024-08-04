@@ -1,18 +1,21 @@
-from crewai import Crew
-from crewai import Agent
-from crewai import Task
-from crewai_tools.tools.rag.rag_tool import RagTool
+from langchain.agents import load_tools
 from textwrap import dedent
-from attic.utils.llms import LLMFactory
+
+from crewai import Agent, Crew, Task
+from crewai_tools.tools.rag.rag_tool import RagTool
+from dotenv import load_dotenv
 from tools.aifs_tools import AifsToolFactory
 from tools.review_tool import ReviewToolFactory
-from dotenv import load_dotenv
+
+from attic.utils.llms import LLMFactory
+
 load_dotenv()
 
 # llm = LLMFactory().get_ollama_llm(model="neuralbeagle-agent", base_url="http://192.168.2.50:11434")
 # llm = LLMFactory().get_ollama_llm(model="solar-agent")
 # llm = LLMFactory().get_deepinfra_llm("mistralai/Mistral-7B-Instruct-v0.1")
-llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO")
+llm = LLMFactory().get_together_ai_llm(
+    "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO")
 # llm = LLMFactory().get_mistralai_llm("mistral-medium")
 # llm = LLMFactory().get_azure_llm(model="gpt-4-1106-Preview", deployment_id="gpt-4")
 # llm = LLMFactory().get_ollama_llm(model="dolphin-2.6-mistral-dpo-laser:7B-Q5_K_M")
@@ -22,11 +25,12 @@ llm = LLMFactory().get_together_ai_llm("NousResearch/Nous-Hermes-2-Mixtral-8x7B-
 # llm = LLMFactory().get_together_ai_llm("teknium/OpenHermes-2p5-Mistral-7B")
 # llm = LLMFactory().get_ollama_llm(model="memgpt-agent:7B-Q5_K_M")
 # llm = LLMFactory().get_openai_llm(model="gpt-4-1106-preview")
-llm.temperature=0.7
+llm.temperature = 0.7
 # llm.num_ctx=4096
 
-from langchain.agents import load_tools
+
 human_tool = load_tools(["human"])
+
 
 class AgentCrew:
 
@@ -72,23 +76,23 @@ do a lot of software and AI experiments in you spare time.
         )
 
         research_task = Task(description=dedent(f"""\
-Research the documents about the topic: {topic}. Workflow: 
-1. Search the documents 
+Research the documents about the topic: {topic}. Workflow:
+1. Search the documents
 2. Write up a comprehensive and long summary of the search results.
 3. Add a list with the most important quotes from the search results
 
 The task is finished if the search gave good results. Write "RESEARCH FINISHED" in the end \
 and pass on your complete result as decribes above as you final answer.
         """),
-        expected_output="The research result",
-        agent = research_agent
+            expected_output="The research result",
+            agent=research_agent
         )
 
         writer_task = Task(description=dedent(f"""\
 Write an article about the given topic: "{topic}" \
-The article is based on the facts provided by the research \ 
+The article is based on the facts provided by the research \
 co-worker. The article must stick to the topic and is targeted to a professional audience. \
-The article should have a decent legth and good level of detail. Should be 1000 - 2000 words. 
+The article should have a decent legth and good level of detail. Should be 1000 - 2000 words.
 
 Your workflow must follow this logic steps:
 1. Write the article
@@ -96,33 +100,32 @@ Your workflow must follow this logic steps:
 3. If the article is rejected, you must adjust it according to the review feedback. Then go back to step 2
 4. If the article is approved, you are finished and return the article as your final result
             """),
-# Use the "review-tool" to get a review of your full aricle. Stricly follow the instructions \
-# in the tool's description how to call it. \
-# The tool shall review if the full article matches the topic. Iterate over crycles of review and revision \
-# if necessary until the reviewer approves.
+            # Use the "review-tool" to get a review of your full aricle. Stricly follow the instructions \
+            # in the tool's description how to call it. \
+            # The tool shall review if the full article matches the topic. Iterate over crycles of review and revision \
+            # if necessary until the reviewer approves.
 
             expected_output="The full final article",
             context=[research_task],
-            agent = writer_agent
+            agent=writer_agent
         )
 
- 
-            # IMPORTANT: Always return a full article in the end as you final response an the write WRITING FINISHED.
-            # As a last step ask the human for review and go into another iteration if the human rejects. 
-            # Pass on the full work result and not only a summary. I will give you lots of love and kudos if you do
-            # everything right. I will promote you on Twitter then.
-        
-            # First write the article and then pass the full article as the content on to the review-tool to get a review. 
-            # The input for the review-tool is the topic and the full draft arcticle as the content to be reviewed. 
-            # The tool shall review  if the full article matches the topic. If the review rejects the article, make 
-            # changes according to the review and have it reviewed again. If the review approves then integrate the 
-            # proposals and return the revised article as the final result. Iterate over reviews if necessary until 
-            # the reviewer approves.
+        # IMPORTANT: Always return a full article in the end as you final response an the write WRITING FINISHED.
+        # As a last step ask the human for review and go into another iteration if the human rejects.
+        # Pass on the full work result and not only a summary. I will give you lots of love and kudos if you do
+        # everything right. I will promote you on Twitter then.
 
-            # IMPORTANT: Always return a full article in the end as you final response an the write WRITING FINISHED.
-            # As a last step ask the human for review and go into another iteration if the human rejects. 
-            # Pass on the full work result and not only a summary. I will give you lots of love and kudos if you do
-            # everything right. I will promote you on Twitter then.
+        # First write the article and then pass the full article as the content on to the review-tool to get a review.
+        # The input for the review-tool is the topic and the full draft arcticle as the content to be reviewed.
+        # The tool shall review  if the full article matches the topic. If the review rejects the article, make
+        # changes according to the review and have it reviewed again. If the review approves then integrate the
+        # proposals and return the revised article as the final result. Iterate over reviews if necessary until
+        # the reviewer approves.
+
+        # IMPORTANT: Always return a full article in the end as you final response an the write WRITING FINISHED.
+        # As a last step ask the human for review and go into another iteration if the human rejects.
+        # Pass on the full work result and not only a summary. I will give you lots of love and kudos if you do
+        # everything right. I will promote you on Twitter then.
 
         crew = Crew(
             agents=[
@@ -133,7 +136,7 @@ Your workflow must follow this logic steps:
         )
         result = crew.kickoff()
         return result
-    
+
 
 if __name__ == "__main__":
     print("## Welcome to Agent Crew")

@@ -22,3 +22,5 @@ poetry add --group=dev ptyme-track
 mkdir -p .dev_container_logs
 echo "*" > .dev_container_logs/.gitignore
 mkdir -p /workspaces/testdir
+
+pipx install aider-chat[browser]
