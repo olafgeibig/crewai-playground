@@ -11,3 +11,5 @@ poetry.lock
 .pdm-python
 pdm.lock
 game.py
+
+db
