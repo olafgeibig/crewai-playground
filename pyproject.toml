@@ -14,7 +14,7 @@ storm = { path = "./crews/storm" }
 tooltest = { path = "./crews/tooltest" }
 
 # shared dependencies
-crewai = { extras = ["tools"], version = "^0.41.1" }
+crewai = { extras = ["tools"], version = "^0.51.0" }
 langchain-groq = "^0.1.6"
 langchain-openai = "^0.1.17"
 
