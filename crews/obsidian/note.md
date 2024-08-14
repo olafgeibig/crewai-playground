@@ -1,36 +1,51 @@
 ```markdown
 ---
-created: 2023-10-01
-updated: 2023-10-01
+created: 2023-10-10
+updated: 2023-10-10
 type: resource
-tags: ai/tools, ai/agents, ai/dev, ai/science
-description: A powerful yet simple platform for building and managing multi-agent AI systems.
+tags: ai/dev, ai/agents, ai/tools, ai/science
+description: crewAI is a cutting-edge framework for orchestrating role-playing, autonomous AI agents, fostering collaborative intelligence to tackle complex tasks.
 ---
 # Description
-crewAI is a platform designed to simplify the creation and management of multi-agent AI systems. It offers an easy-to-use framework that allows users to automate important workflows quickly and effectively. With over 1,400,000 multi-agent crews running in the last seven days, crewAI has demonstrated its robustness and efficiency in handling real-world use cases.
+crewAI is a sophisticated framework designed to orchestrate role-playing, autonomous AI agents. By promoting collaborative intelligence, crewAI enables agents to work together seamlessly, effectively addressing complex tasks and challenges. The platform supports a variety of core concepts including agents, tasks, tools, processes, and crews, each playing a crucial role in the AI ecosystem.
 
 ## Concepts
-crewAI is built on the concept of multi-agent systems, where multiple AI agents work together to achieve complex tasks. The platform emphasizes power with simplicity, making it accessible for both novice and experienced developers. Users can bring their favorite AI models from providers like OpenAI, Google, and HuggingFace, fine-tune them, and deploy them using pre-built templates. The platform ensures privacy and security by running each crew in isolated VPCs.
+The core concept of crewAI revolves around orchestrating autonomous AI agents to work collaboratively. This involves defining roles for each agent, setting up tasks, utilizing tools, and managing processes to ensure efficient collaboration. The framework also supports advanced features like training, memory planning, and testing to enhance the performance of AI agents.
 
 ## Usages
-crewAI can be used for a variety of applications, from automating business processes to creating intelligent chatbots. The platform supports production-ready multi-agent automations, offering features like webhooks, gRPC, and metrics. Users can turn their multi-agent crews into APIs and get enterprise support through crewAI+. Additionally, the community aspect allows developers to share their agents and models, and receive help from other users.
+crewAI is widely used for automating complex tasks that require collaborative intelligence. It is particularly effective in scenarios where multiple AI agents need to work together to achieve a common goal. Examples include preparing for meetings, trip planning, creating content for social media, and analyzing stock data.
 
 # Resources
 ## Official
-- [crewAI Official Website](https://www.crewai.com/)
+- [crewAI Documentation](https://docs.crewai.com/)
 - [Crew AI](https://crewai.net/)
 - [crewAIInc/crewAI - GitHub](https://github.com/crewAIInc/crewAI)
+- [Tools - crewAI Documentation](https://docs.crewai.com/core-concepts/Tools/)
+- [CrewAI + LlamaIndex Cookbook](https://docs.llamaindex.ai/en/stable/examples/cookbooks/crewai_llamaindex/)
+- [CrewAI: Orchestrating Powerful Collaborative AI Agents - Medium](https://medium.com/@mauryaanoop3/crewai-orchestrating-powerful-collaborative-ai-agents-15408d0bcb19)
+- [CrewAI Step-by-Step | Complete Course for Beginners - YouTube](https://www.youtube.com/watch?v=kBXYFaZ0EN0)
+- [Starting a New CrewAI Project - Using Template](https://docs.crewai.com/getting-started/Start-a-New-CrewAI-Project-Template-Method/)
 - [Multi AI Agent Systems with crewAI - DeepLearning.AI](https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/)
-- [crewAI - LinkedIn](https://www.linkedin.com/company/crewai-inc)
 
 ## Community
-- [crewAI community discord - João Moura on X](https://twitter.com/joaomdmoura/status/1742688354440016235)
-- [Andrew C. Becker on X: "Discord: crewAI v0.10.0 is out"](https://twitter.com/andrew_c_becker/status/1756458096296095839)
+- [crewAI - Platform for Multi AI Agents Systems](https://www.crewai.com/)
+- [crewai - Reddit](https://www.reddit.com/r/crewai/)
+- [crewAIInc/crewAI - GitHub](https://github.com/crewAIInc/crewAI)
+- [How this can be prevented in CrewAI? - DeepLearning.AI](https://community.deeplearning.ai/t/how-this-can-be-prevented-in-crewai/629727)
+- [GitHub - zinyando/awesome-crewai: A list of CrewAI resources](https://www.reddit.com/r/crewai/comments/1egik9t/github_zinyandoawesomecrewai_a_list_of_crewai/)
+- [Crew AI Crash Course (Step by Step) - Alejandro AO](https://alejandro-ao.com/crew-ai-crash-course-step-by-step/)
+- [crewAIInc/crewAI-examples - GitHub](https://github.com/crewAIInc/crewAI-examples)
+- [How to Automate Processes with CrewAI - DEV Community](https://dev.to/stephenc222/how-to-automate-processes-with-crewai-31g2)
 
 ## Know-How
-- [CrewAI - How to Write a Blog Post Using AI Agents - YouTube](https://www.youtube.com/watch?v=yTSNO30Fknk)
-- [From Videos to Blogs: Unlock Content Creation with Crewai](https://gurjeet333.medium.com/from-videos-to-blogs-unlock-content-creation-with-crewai-774f1bc083bf)
-- [Blog post using CrewAI|Tutorial:1 - YouTube](https://www.youtube.com/watch?v=A7ETB5n45rA)
-- [Harnessing CrewAI for Enhanced Instagram Posting with Multiple LLMs](https://medium.com/@julio.pessan.pessan/harnessing-crewai-for-enhanced-instagram-posting-with-multiple-llms-1a9c742c5e41)
-- [CrewAI - Full Team Of Agents Writing A Blog Post - YouTube](https://www.youtube.com/watch?v=CdfkCkPNDl0)
+- [Tools - crewAI Documentation](https://docs.crewai.com/core-concepts/Tools/)
+- [How Agents Collaborate in CrewAI](https://docs.crewai.com/core-concepts/Collaboration/)
+- [CrewAI RAG Deep Dive [Basic & Advanced Examples] - YouTube](https://www.youtube.com/watch?v=7GhWXODugWM)
+- [Optimizing Everyday Tasks with CrewAI | by Foad Kesheh - Medium](https://medium.com/@foadmk/optimizing-everyday-tasks-with-crewai-fc655ca08944)
+- [alejandro-ao/crewai-crash-course: Tutorial: Introduction to ... - GitHub](https://github.com/alejandro-ao/crewai-crash-course)
+- [Crew AI Crash Course (Step by Step) | by ProspexAI - Medium](https://medium.com/@tarekeesa7/crew-ai-crash-course-step-by-step-c801f37220a5)
+- [Deep dive into CrewAI (With Examples) - Composio](https://composio.dev/blog/crewai-examples/)
+- [How I made an entire Team with CrewAI to manage my YouTube ...](https://www.reddit.com/r/ArtificialInteligence/comments/1cagrqi/how_i_made_an_entire_team_with_crewai_to_manage/)
+- [Track AI Trends: CrewAI Agents & RAG - LanceDB Blog](https://blog.lancedb.com/track-ai-trends-crewai-agents-rag/)
+- [Transforming HR with CrewAI: Revolutionizing Employee Learning ...](https://www.linkedin.com/pulse/transforming-hr-crewai-revolutionizing-employee-learning-onno-bos-oe7if)
 ```

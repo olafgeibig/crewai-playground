@@ -1,5 +1,6 @@
 # CrewAI-Playground
-1. Run poetry install in the root and in all projects
+1. If activated env, then deactivate first
+2. Run poetry install in the root and in all projects    
 
 # Notes
 Poetry setup

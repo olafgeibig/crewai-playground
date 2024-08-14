@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Task, Process
 from crewai_tools import SerperDevTool, WebsiteSearchTool
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
+import os
 
 def create_research_task(agent, resource, objectives) -> Task:
     return Task(
@@ -64,12 +65,21 @@ def create_writer_task(agent, resource, template, input_task) -> Task:
 
 def main():
     load_dotenv()
+    # llm=ChatOpenAI(model="gpt-4o", temperature=0.7)
+    DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+    llm = ChatOpenAI(
+        model="deepseek-chat", 
+        api_key=DEEPSEEK_API_KEY, 
+        base_url="https://api.deepseek.com/beta",
+        temperature=0.0
+    )
+
     research_agent = Agent(
         role='Research agent',
         goal='Research the the important resources for a given topic',
         backstory="I am a researcher with a great skill to find the most relevant resources. I stick to the objectives. I don't make something up",
         verbose=True,
-        llm=ChatOpenAI(model="gpt-4o", temperature=0.7),
+        llm=llm,
         allow_delegation=False,
         tools=[SerperDevTool()]
     )
@@ -79,7 +89,7 @@ def main():
         goal='Validate if the findings of a research are valid against the give research topic.',
         backstory='I am a validator that thoroughly validates the findings of a research.',
         verbose=True,
-        llm=ChatOpenAI(model="gpt-4o", temperature=0.7),
+        llm=llm,
         allow_delegation=True,
         tools=[]
     )
@@ -89,7 +99,7 @@ def main():
         goal='Write personal notes using a specified template.',
         backstory='I am a note writer with a great skill to write personal notes.',
         verbose=True,
-        llm=ChatOpenAI(model="gpt-4o", temperature=0.7),
+        llm=llm,
         allow_delegation=False,
         tools=[WebsiteSearchTool()]
     )
