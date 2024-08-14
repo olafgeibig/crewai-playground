@@ -1,65 +1,68 @@
 from crewai import Agent, Crew, Task, Process
-from crewai_tools import SerperDevTool, WebsiteSearchTool
+from crewai_tools import SerperDevTool, ScrapeWebsiteTool, FileReadTool
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 import os
 
-def create_research_task(agent, resource, objectives) -> Task:
+def create_research_task(agent, resource, note_file) -> Task:
     return Task(
         description=f"""Research the most relevant websites about the resource "{resource}".
-        Search the web about the resource for each of these categories:
-        {objectives}
-        Each result must be related with the resource "{resource}". Don't add any general findings about the objectives.
-        If there are no findings related to the resource, ignore them. 
-        Only use maximum best 5 findings per category.
-        The result is a list of the top relevant links to websites for each of the category in markdown format:
+        Search topics: official, discussion, articles, howto, learning
 
-        # Resources
-        ## Official
-        ## Community
-        ## Know-How
+        Perform the web search:
+        - Search the web about for each of the topics
+        - Each result must be related with the resource "{resource}". Don't add any general findings about the objectives.
+        - Look at the URL and the snippet to validate each result for quality, accuracy, and relevance to the project.
+        - If there are findings not related to the resource, ignore them. 
+        - Only use maximum best 5 findings per objective.
+        
+        Generate the research result in markdown format.
         """,
         agent=agent,
         expected_output="research result"
     )
 
-def create_validation_task(agent, resource, objectives, input_task) -> Task:
+def create_refinement_task(agent, resource, note_file, input_task) -> Task:
     return Task(
-        description=f"""Validate the research result for websites about the resource "{resource} by checking the following objectives:
-        {objectives}
-        If findings are not related to the topic or do not match the objectives, reject the research result and give your reasons.
-        In case of rejection, the researcher must improve the reaserch.
+        description=f"""Read the refinement section of the file "{note_file}" and extract the refinement objectives and the refinement template. Ignore the other sections.
+
+        Iterate over all websites of the research result, for each website:
+        - Read the content
+        - Decide if it matches one of the refinement criterias. Match against the examples in the refinement criterias
+        - Skip it if it doesn't match, if it does: Create a summary of the content with maximum 100 words and put it in the correct section of the refinement template 
+
+        Generate the refinement result in markdown format according to the refinement template.
         """,
         agent=agent,
-        expected_output="validation result",
+        expected_output="refinement result",
         context=[input_task]
     )
 
-def create_writer_task(agent, resource, template, input_task) -> Task:
+def create_writer_task(agent, resource, note_file) -> Task:
     return Task(
-        description=f"""Write a note in markdown format about the resource "{resource}" using the template.
-        The note shall contain a general section explaining the resource and its concepts and multiple themed section with important links to websites.
-        Replace the placeholders in the template as follows:
+        description=f"""
+        Write a note in markdown format about the resource "{resource}" using the note template.
+        The note shall contain a general section explaining the resource and its concepts and a multiple themed section with important links to websites.
+        
+        Read the writing section of the file "{note_file}" and extract the note template and the note tags. Ignore the other sections.
+        Read the file "refinement_result.md" and use it to write the note
         
         Description and concept:
-        - Iterate over all links of teh official resources. Iterate over all findings and examine the content.
-        - Write a concise description of the resource.
-        - Extract the concept used by the resource.
-        - Use the official resources for the description an concept.
-        - Use the know-how resources for the description and concept.
-        - Follow relevant links from the content.
+        Scrape the content of the websites from official resources section using the website scraper tool and use the content for the following tasks:
+        - Write a comprehensive description for the resource covering all aspects using 200 words min.
+        - Explain the concepts used by the resource using 200 words min.
+        - Choose matching tags from the "note tags" and add them to the note.
+        - Extract relevant links from the content of the official resources and add the links to the official resources section.
 
-        The resource lists
-        - Use the websites from the resources section of the research result. Don't do your own research.
-        - Create a bullet point for each resource finding in the format: markdown-link caption
-        - Take care that only links matching the section are placed with a section. Resort if necessary.
+        The resources
+        - Use the websites from the refinement result. Don't do your own research.
+        - Copy the resources from the refinement result
 
-        Template: {template}
+        Generate the note in markdown format according to the note template, remove the '''markdown tag..
         """,
         agent=agent,
         expected_output="a note that is the filled template",
         output_file="note.md",
-        context=[input_task]
     )
 
 
@@ -81,17 +84,17 @@ def main():
         verbose=True,
         llm=llm,
         allow_delegation=False,
-        tools=[SerperDevTool()]
+        tools=[FileReadTool(), SerperDevTool()]
     )
 
-    validator_agent = Agent(
-        role='Validator agent',
-        goal='Validate if the findings of a research are valid against the give research topic.',
-        backstory='I am a validator that thoroughly validates the findings of a research.',
+    refinement_agent = Agent(
+        role='Refinement agent',
+        goal='Validate and refine the findings of a website research so that it matches the given objectives. I use the scrape website tool to read the contents of a website',
+        backstory='I am an analyst who thoroughly analyzes the findings of a research.',
         verbose=True,
         llm=llm,
-        allow_delegation=True,
-        tools=[]
+        allow_delegation=False,
+        tools=[FileReadTool(), ScrapeWebsiteTool()]
     )
 
     writer_agent = Agent(
@@ -101,44 +104,19 @@ def main():
         verbose=True,
         llm=llm,
         allow_delegation=False,
-        tools=[WebsiteSearchTool()]
+        tools=[FileReadTool(), ScrapeWebsiteTool()]
     )
 
     resource = "crewAI"
-    research_objectives = """1. official resources like project website, source code, related research papers
-    2. community resources like discussion forums, discord, slack, X account
-    3. Know-How resources like articles, blog-posts, social media posts, videos, podcasts
-    """
-    template = """
-        ---
-        created: {today's date}
-        updated: {today's date}
-        type: resource
-        tags: {One or more of: ai/dev, ai/agents, ai/tools, ai/science}
-        description: {short description of the resource}
-        ---
-        # Description
-        {long description of the resource}
-        ## Concepts
-        {Explanation of the concepts used by the resource}
-        ## Usages
-        {Explanation of the usages of the resource}
-        # Resources
-        ## Official
-        {bulleted list of links to official resources}
-        ## Community
-        {bulleted list of links to community resources}
-        ## Know-How
-        {bulleted list of links to know-how websites}
-    """
+    note_file = "project_note.md"
 
-    research_task = create_research_task(research_agent, resource, research_objectives)
-    validation_task =create_validation_task(validator_agent, resource, research_objectives, research_task)
-    writer_task = create_writer_task(writer_agent, resource, template, validation_task)
+    research_task = create_research_task(research_agent, resource, note_file)
+    refinement_task =create_refinement_task(refinement_agent, resource, note_file, research_task)
+    writer_task = create_writer_task(writer_agent, resource, note_file)
 
     crew = Crew(
-        agents=[research_agent, validator_agent, writer_agent],
-        tasks=[research_task, validation_task, writer_task],
+        agents=[research_agent, refinement_agent, writer_agent],
+        tasks=[writer_task], #research_task, refinement_task],#, writer_task],
         verbose=True,
         process=Process.sequential,
         # planning=True,

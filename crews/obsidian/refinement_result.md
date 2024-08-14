@@ -1,20 +1,3 @@
-```
----
-created: 2023-10-10
-updated: 2023-10-10
-type: resource
-tags: ai/dev, ai/agents, ai/tools, ai/science, ai/agent-tools, ai/dev, ai/audio, ai/colab, cs/python
-description: crewAI provides a platform for building multi-agent systems with simplicity and power. It automates important workflows and supports over 1.4 million multi-agent crews.
----
-# Description
-crewAI is a platform designed to simplify the creation and management of multi-agent systems. It offers a powerful yet simple framework that automates critical workflows, enabling developers to build and deploy multi-agent systems quickly. With over 1.4 million multi-agent crews running on the platform in the last 7 days, crewAI is a robust solution for real-world use cases.
-
-## Concepts
-crewAI utilizes modular design principles to facilitate the development of autonomous AI agents. It supports the integration of various AI models from providers like OpenAI, Google, Azure, and HuggingFace, allowing for customization and fine-tuning. The platform emphasizes privacy and security, ensuring that each crew runs in isolated environments. Additionally, crewAI provides pre-built templates and tools to accelerate the development process and bring agents to production with ease.
-
-## Usages
-crewAI is used for a wide range of applications, from automating business workflows to creating AI research assistants and managing content generation. It supports the transformation of multi-agent crews into APIs, making it versatile for enterprise-level deployments. The platform also fosters a community of developers who share their experiences and insights, enhancing collaboration and innovation.
-
 # Resources
 ## Official
 - **Title:** crewAI - Platform for Multi AI Agents Systems
@@ -62,4 +45,3 @@ crewAI is used for a wide range of applications, from automating business workfl
 - **Title:** Generate a Newsletter with Exa Research Agent and CrewAI
   **Link:** https://alejandro-ao.com/crewai-with-exa-research-agent-newsletter/
   **Summary:** This tutorial guides through creating a team of AI agents using CrewAI and Exa to generate a newsletter, focusing on research and content compilation.
-```
