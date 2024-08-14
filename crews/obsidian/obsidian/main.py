@@ -1,9 +1,9 @@
-from crewai import Agent, Crew, Task
+from crewai import Agent, Crew, Task, Process
 from crewai_tools import SerperDevTool, WebsiteSearchTool
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
-def create_research_task(agent, resource, objectives):
+def create_research_task(agent, resource, objectives) -> Task:
     return Task(
         description=f"""Research the most relevant websites about the resource "{resource}".
         Search the web about the resource for each of these categories:
@@ -22,7 +22,7 @@ def create_research_task(agent, resource, objectives):
         expected_output="research result"
     )
 
-def create_validation_task(agent, resource, objectives):
+def create_validation_task(agent, resource, objectives, input_task) -> Task:
     return Task(
         description=f"""Validate the research result for websites about the resource "{resource} by checking the following objectives:
         {objectives}
@@ -30,32 +30,35 @@ def create_validation_task(agent, resource, objectives):
         In case of rejection, the researcher must improve the reaserch.
         """,
         agent=agent,
-        expected_output="validation result"
+        expected_output="validation result",
+        context=[input_task]
     )
 
-def create_writer_task(agent, resource, template):
+def create_writer_task(agent, resource, template, input_task) -> Task:
     return Task(
         description=f"""Write a note in markdown format about the resource "{resource}" using the template.
         The note shall contain a general section explaining the resource and its concepts and multiple themed section with important links to websites.
-        Iterate over all links from the research result with the website search tool. Iterate over all findings.
-        Examine the content of the linked websites and create a caption for each finding.
-        Follow the description in the template file how to fill the placeholders.
+        Replace the placeholders in the template as follows:
         
         Description and concept:
+        - Iterate over all links of teh official resources. Iterate over all findings and examine the content.
         - Write a concise description of the resource.
         - Extract the concept used by the resource.
         - Use the official resources for the description an concept.
         - Use the know-how resources for the description and concept.
+        - Follow relevant links from the content.
 
         The resource lists
+        - Use the websites from the resources section of the research result. Don't do your own research.
         - Create a bullet point for each resource finding in the format: markdown-link caption
-        - Take care that only links matching the section are placed with a section.
+        - Take care that only links matching the section are placed with a section. Resort if necessary.
 
         Template: {template}
         """,
         agent=agent,
         expected_output="a note that is the filled template",
-        output_file="note.md"
+        output_file="note.md",
+        context=[input_task]
     )
 
 
@@ -66,7 +69,7 @@ def main():
         goal='Research the the important resources for a given topic',
         backstory="I am a researcher with a great skill to find the most relevant resources. I stick to the objectives. I don't make something up",
         verbose=True,
-        llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.7),
+        llm=ChatOpenAI(model="gpt-4o", temperature=0.7),
         allow_delegation=False,
         tools=[SerperDevTool()]
     )
@@ -76,8 +79,8 @@ def main():
         goal='Validate if the findings of a research are valid against the give research topic.',
         backstory='I am a validator that thoroughly validates the findings of a research.',
         verbose=True,
-        llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.7),
-        allow_delegation=False,
+        llm=ChatOpenAI(model="gpt-4o", temperature=0.7),
+        allow_delegation=True,
         tools=[]
     )
 
@@ -86,20 +89,20 @@ def main():
         goal='Write personal notes using a specified template.',
         backstory='I am a note writer with a great skill to write personal notes.',
         verbose=True,
-        llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.7),
+        llm=ChatOpenAI(model="gpt-4o", temperature=0.7),
         allow_delegation=False,
         tools=[WebsiteSearchTool()]
     )
 
-    resource = "Crawl4AI project"
+    resource = "crewAI"
     research_objectives = """1. official resources like project website, source code, related research papers
     2. community resources like discussion forums, discord, slack, X account
     3. Know-How resources like articles, blog-posts, social media posts, videos, podcasts
     """
     template = """
         ---
-        created: {date}
-        updated: {date}
+        created: {today's date}
+        updated: {today's date}
         type: resource
         tags: {One or more of: ai/dev, ai/agents, ai/tools, ai/science}
         description: {short description of the resource}
@@ -120,13 +123,16 @@ def main():
     """
 
     research_task = create_research_task(research_agent, resource, research_objectives)
-    validation_task=create_validation_task(validator_agent, resource, research_objectives)
-    writer_task = create_writer_task(writer_agent, resource, template)
+    validation_task =create_validation_task(validator_agent, resource, research_objectives, research_task)
+    writer_task = create_writer_task(writer_agent, resource, template, validation_task)
 
     crew = Crew(
         agents=[research_agent, validator_agent, writer_agent],
         tasks=[research_task, validation_task, writer_task],
-        verbose=True
+        verbose=True,
+        process=Process.sequential,
+        # planning=True,
+        # planning_llm=ChatOpenAI(model="gpt-4o")
     )
     print("Running the agent...")
     result = crew.kickoff()
