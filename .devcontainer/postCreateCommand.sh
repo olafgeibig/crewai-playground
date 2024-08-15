@@ -24,3 +24,4 @@ echo "*" > .dev_container_logs/.gitignore
 mkdir -p /workspaces/testdir
 
 pipx install aider-chat[browser]
+pipx install mypy

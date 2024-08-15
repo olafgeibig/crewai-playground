@@ -22,7 +22,8 @@
             "extensions": [
                 "ms-python.python",
                 "tamasfe.even-better-toml",
-                "Codeium.codeium",
+                "sourcegraph.cody-ai",
+                "mnismt.cody-plus-plus",
                 "njpwerner.autodocstring",
                 "mhutchie.git-graph",
                 "eamodio.gitlens",
