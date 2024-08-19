@@ -18,9 +18,49 @@ class CrewGenCrew():
         load_dotenv()
         # llm=ChatOpenAI(model="gpt-4o", temperature=0.7)
         DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-        llm = ChatOpenAI(
+        self.llm = ChatOpenAI(
             model="deepseek-chat", 
             api_key=DEEPSEEK_API_KEY, 
             base_url="https://api.deepseek.com/beta",
             temperature=0.0
+        )
+
+    @agent
+    def create_manager_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['manager_agent'],
+            llm=self.llm,
+            verbose=True
+        )
+
+    @agent
+    def create_agent_specialist_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['agent_agent'],
+            llm=self.llm,
+            verbose=True
+        )
+
+    @agent
+    def create_task_specialist_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['task_agent'],
+            llm=self.llm,
+            verbose=True
+        )
+
+    @task
+    def team_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['team_task'],
+            agent=self.create_manager_agent(),
+            output_file='team_composition.md'
+        )
+
+    @task
+    def agent_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['agent_task'],
+            agent=self.create_agent_specialist_agent(),
+            output_file='agent_definitions.yaml'
         )
