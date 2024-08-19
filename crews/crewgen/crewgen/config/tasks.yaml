@@ -1,11 +1,12 @@
 team_concept:
   name: Create a concept for a team of agents
   description: >
-    Define team composition and coarse graines roles for a team that has this purpose:
+    Define the agent team concept for the given purpose, so that the agent creation team can work
+    on creating a team of agents and their tasks. Team purpose:
     "{team_purpose}"
 
     Objective:
-    The Team Manager is tasked with creating a well-structured team composition that aligns with the
+    The Team Manager is tasked with creating a well-structured team concept that aligns with the
     specified purpose of the team. The team should consist of agents with clearly defined roles, each
     tailored to contribute effectively to the overarching team objective. The Team Manager must
     consider the necessary skill sets, expertise, and balance required to achieve the team's goals.
@@ -17,29 +18,35 @@ team_concept:
       • Identify the key challenges and tasks that the team needs to address.
       • Determine the skills, expertise, and experience necessary to accomplish the team's goals.
       • Write a refined and detailed purpose statement that clearly outlines the team's purpose
-      2. Identify Key Roles:
-      • Based on the team's purpose, identify the core roles that are essential to achieving the
+      2. Derive the team objectives from the purpose:
+      • Break down the team's purpose into specific, measurable objectives.
+      • Ensure that each objective is clear, actionable, and aligned with the team's purpose.
+      3. Identify Key Roles:
+      • Based on the team's purpose and objectives, identify the core roles that are essential to achieving the
         objective.
+      • Think that you are hiring real people to set up the team
       • Consider roles that cover all necessary aspects of the project, including strategy, technical
         expertise, execution, and quality control.
-      3. Define Agents and Their Roles:
-      • Create a list of agents, each with a specific role, name, and brief description of their
+      4. Define Agents and Their Roles:
+      • Create a list of agents, each with a specific role, name, and a description of their
         function within the team.
       • Ensure that the roles are distinct yet complementary, allowing for efficient collaboration
         and minimal overlap.
   expected_output: >
-    Team Composition Document:
+    Team Concept Document in markdown:
       • Overview: A brief summary of the team's purpose and the overall objective that the team is
         intended to achieve.
-      • Team Purpose: A detailed explanation of the overarching objective that the team is
+      • Team Purpose: A detailed explanation of the team purpose
+      • Team Objectives: A list of specific, measurable objectives that the team is tasked with.
       • Agent List: A detailed list of the agents, including:
       • Name of each agent: A unique identifier or name for each agent.
-      • Role description: A concise but clear explanation of the role that each agent will play
-        within the team.
-      • Functionality: A description of the tasks or responsibilities that each role encompasses,
-        focusing on how they contribute to the team's objectives.
-      • Role Rationale: A section explaining the reasoning behind the selection of each role,
-        detailing why each is necessary and how it fits into the overall team strategy.
+        • Role description: A concise but clear explanation of the role that each agent will play
+          within the team.
+        • Functionality: A description of the tasks or responsibilities that each role encompasses,
+          focusing on how they contribute to the team's objectives.
+        • Role Rationale: A section explaining the reasoning behind the selection of each role,
+          detailing why each is necessary and how it fits into the overall team strategy.
+        • Responsibilities: A list of the responsibilities that each agent will undertake aligned with the objectives.
       • Inter-Agent Relationships: An outline of how the agents will interact with each other,
         including any hierarchical structures, dependencies, or collaboration points that are
         critical for team success.
@@ -59,8 +66,8 @@ agent_definition:
 
     Steps to Complete the Task:
 
-      1. Review Team Composition and Roles:
-      • Begin by thoroughly reviewing the team composition and the roles defined by the Team Manager.
+      1. Review Team concept and Roles:
+      • Begin by thoroughly reviewing the team concept and the roles defined by the Team Manager.
       • Understand the overarching team purpose and how each role contributes to the team's success.
       2. Define Individual Goals:
       • For each agent, create a specific, measurable, and aligned goal that guides their
@@ -93,47 +100,123 @@ agent_definition:
       backstory: >
         Description of the backstory
 
-agent_code:
-  name: Generate and Configure Agent Code Using CrewAI
+task_definition:
+  name: Generate Task Definitions Based on Team concept and Agent Roles
   description: >
     Objective:
-    The Agent Coder is tasked with writing code that generates and configures agents within the CrewAI framework. Before writing the code, 
-    the agent must carefully review the following files:
-    - ./output/team_composition.md - the team composition document that outlines the team's purpose, roles, and inter-agent relationships.
+    The Task Designer is responsible for analyzing the team concept, as defined in the team_concept.md document, 
+    and breaking it down into specific tasks that align with the roles and responsibilities. The Task Designer will ensure that each task supports 
+    the intended workflow as envisioned by the Team Manager. 
+    The final deliverable is a YAML file containing detailed task definitions that will guide the team in achieving their objectives.
+    The agent must carefully review the following files:
+    - ./output/team_concept.md - the team concept document that outlines the team's purpose, roles, and inter-agent relationships.
     - ./output/agents.yaml - the agent definitions file that contains detailed information about each agent, including their roles, goals, and descriptions.
-    - ./input/crew.py - the CrewAI framework code that provides the necessary tools and functions to create and configure agents.
+    - ./input/config/tasks.yaml - an example tasks.yaml file that contains example tasks.
+
+    Steps to Complete the Task:
+      1.	Study the files:
+      •	Review team_concept.md to understand the structure of the team, the roles assigned to each agent, and the inter-agent communication patterns.
+      •	Ensure a clear understanding of how the team is expected to function as a cohesive unit.
+      2.	Analyze Agent Definitions:
+      •	Examine agents.yaml to understand the specific goals, backstories, and features of each agent.
+      •	Pay attention to the strengths and capabilities of each agent, ensuring that tasks are assigned in a way that leverages these attributes.
+      3.	Understand the team's objectives:
+      •	Thoroughly read the team_purpose document to grasp the overarching goal of the team.
+      •	Identify key milestones and deliverables that the team is expected to achieve.
+      4.	Break Down the Team Purpose into Tasks:
+      •	Decompose the team’s overarching purpose into manageable tasks that align with the roles and capabilities of each agent as defined in the team concept.
+      •	Ensure that each task is clearly defined, with specific objectives that contribute to the overall team goal.
+      •	Consider the workflow proposed by the Team Manager, ensuring that tasks are structured to follow the intended sequence and inter-agent collaborations.
+      5.	Draft Task Definitions:
+      •	Write detailed task definitions for each agent, specifying the objectives, steps to complete, and deliverables for each task.
+      •	Ensure that tasks are interconnected where necessary, reflecting the inter-agent relationships and communication patterns defined in team_concept.md.
+      •	Include relevant references to the goals and backstories from agents.yaml to enhance task relevance and motivation for each agent.
+      6.	Organize Tasks in a YAML File:
+      •	Compile all task definitions into a structured YAML file.
+      •	Ensure that the YAML file is well-organized, with clear headers and sections for each agent’s tasks.
+      •	Validate the YAML syntax to ensure that the file is correctly formatted and ready for use by the agents.
+  expected_output: >
+    Task Definitions in a yaml file. Each line max 100 chars. You can use self defined
+    variables in curly braces to parametrize the definition. See the example in ./input/config/tasks.yaml. 
+    Remove the surrounding triple quotes around the contents of the file.
+    The format for each task looks like this:
+
+    task_name:
+      name: Task Name
+      description: >
+        Description of the task
+      expected_output: >
+        Description of the desired output. Include expected content as well as an example for the format.
+  
+crew_code:
+  name: Generate Code for a crewAI crew
+  description: >
+    Objective:
+    The Agent Coder is tasked with writing code that generates and configures agents within the crewAI framework. Before writing the code, 
+    the agent must carefully review the following files:
+    - ./output/team_concept.md - the team concept document that outlines the team's purpose, roles, and inter-agent relationships.
+    - ./output/agents.yaml - the agent definitions file that contains detailed information about each agent.
+    - ./output/tasks.yaml - the task definitions file that contains detailed information about each task.
+    - ./input/crew.py - the crewAI framework code example that creates and configure agents, their tasks and the crew.
+  
     The code itself will be responsible for creating and configuring the agents to ensure they fulfill their purposes 
     and interact effectively according to the specified inter-agent relationships.
 
     Steps to Complete the Task:
 
       1.	Context Gathering from Input Files:
-      •	team_composition.md: Review this file to understand the overall team structure, including the roles of each agent and the defined communication patterns between them.
-      •	agents.yaml: Study this file to grasp the detailed goals and descriptions of each agent, which will be crucial for accurate configuration within the CrewAI framework.
-      •	crew.py: Study the example code how to generate and configure agents within the CrewAI framework.
+      •	team_concept.md: Review this file to understand the overall team structure, including the roles of each agent and the defined communication patterns between them.
+      •	agents.yaml: Study this file to grasp the detailed goals and descriptions of each agent, which will be crucial for accurate configuration within the crewAI framework.
+      •	crew.py: Study the example code how to generate and configure agents within the crewAI framework.
       2.	Code Planning and Structure:
-      •	Read the CrewAI Agent Documentation: Familiarize yourself with the official CrewAI documentation to ensure that your code adheres to the latest best practices and capabilities of the framework.
-      •	Based on the information gathered from the input files, outline the code structure required to generate and configure each agent within the CrewAI framework.
-      •	Plan how to translate the roles, goals, backstories, and communication patterns into the appropriate code constructs using the CrewAI syntax.
+      •	Read the crewAI Agent Documentation: Familiarize yourself with the official crewAI documentation to ensure that your code adheres to the latest best practices and capabilities of the framework.
+      •	Based on the information gathered from the input files, outline the code structure required to generate and configure each agent within the crewAI framework.
+      •	Plan how to translate the roles, goals, backstories, and communication patterns into the appropriate code constructs using the crewAI syntax.
       3.	Code Implementation:
-      •	Write the code to generate each agent in CrewAI, ensuring that all necessary attributes (such as goals, roles, and backstories) are correctly configured based on the information from agents.yaml.
-      •	Implement the communication patterns and inter-agent relationships as outlined in team_composition.md, ensuring that agents can interact and collaborate effectively.
-      •	Use the example provided in crew-example.py as a guide to ensure that the code adheres to the correct syntax and best practices for CrewAI.
+      •	Write the code to generate each agent in crewAI, ensuring that all necessary attributes (such as goals, roles, and backstories) are correctly configured based on the information from agents.yaml.
+      •	Implement the communication patterns and inter-agent relationships as outlined in team_concept.md, ensuring that agents can interact and collaborate effectively.
+      •	Use the example provided in crew.py as a guide to ensure that the code adheres to the correct syntax and best practices for crewAI.
       4.	Configuration of Features and Relationships:
       •	Configure each agent with the features described in agents.yaml, ensuring that these features align with the agents’ goals and roles.
-      •	Set up the inter-agent communication protocols and relationships according to the patterns defined in team_composition.md, ensuring smooth and efficient collaboration between agents.
+      •	Set up the inter-agent communication protocols and relationships according to the patterns defined in team_concept.md, ensuring smooth and efficient collaboration between agents.
       5.	Documentation and Finalization:
-      •	Document the code, including explanations of how the information from team_composition.md and agents.yaml was used to inform the configuration.
+      •	Document the code, including explanations of how the information from team_concept.md and agents.yaml was used to inform the configuration.
       •	Provide comments within the code to clarify how each section corresponds to specific agent attributes and relationships.
       •	Ensure the final code is clean, well-organized, and ready for deployment or further iteration.
   expected_output: >
     The expected output is a Python script that generates and configures agents for the crewAI framework.
-    	1. Agent creation code:
-      •	A Python script that generates and configures agents in the CrewAI framework according to the example code provided in ./input/crew.py.
+      •	A Python script that generates and configures agents in the crewAI framework according to the example code provided in ./input/crew.py.
       •	The code should be fully functional, creating agents that fulfill their roles, goals, and inter-agent relationships as defined.
-      •	Use the modern way from the example crew.py file where the agent and task definitions are in yaml files.
+      •	Use the modern way from the example crew.py file where the agent and task definitions are in yaml files and referenced in the code via decorators.
       •	Remove the surrounding triple quotes around the contents of the file.
-      2. Features configuration
-      •	Agent features are configured according to the crewAI angent documentation.
-      3. Documentation:
-      •	Inline comments within the code to explaining agent features and communication patterns.
+
+tool_usage:
+  name: Choose tools for the crew
+  description: >
+    Objective:
+    The CrewAI Coder is tasked with improving the existing crew creation code within the CrewAI framework by focusing on the configuration and optimization of tool usage for agents. The agent must modify the crew configuration based on the team’s concept, the already generated files, and the provided documentation on the available options for the agent class. The specific focus is on selecting and configuring the tools that each agent within the crew will use, ensuring that these tools are aligned with the agents’ roles and tasks to enhance their efficiency and effectiveness.
+    The agent must carefully review the following files:
+    - ./input/agents.md - options of the agent class
+    - ./input/tasks.md - options of the task class
+    - ./input/tools.md - available tools
+
+    Steps to Complete the Task:
+      1.	Review Existing Code and Files:
+      •	Examine the Current Crew Code: Review the existing Python scripts that define and configure the crew within the CrewAI framework, paying particular attention to how tools are currently implemented, if at all.
+      •	Analyze Generated Files: Study the already generated files to understand the current structure, roles, and tasks of the agents within the team.
+      •	Consult Documentation: Thoroughly read the provided documentation on the available options for the agent class, focusing on the tools that can be configured and their potential uses within the CrewAI framework.
+      2.	Assess Tool Requirements:
+      •	Understand the Team Concept: Ensure a clear understanding of the team’s overall purpose, goals, and the specific tasks each agent is responsible for within the crew.
+      •	Identify Necessary Tools: Based on the roles and tasks outlined in the agents.yaml file, determine the most appropriate tools for each agent. Consider how these tools can optimize task performance and contribute to the overall efficiency of the crew.
+      3.	Modify the Crew Code:
+      •	Integrate and Configure Tools: Select and configure the necessary tools for each agent within the crew. Ensure that the tools are well-suited to the agents’ roles and tasks, and that their integration enhances the agents’ ability to perform their duties effectively.
+      •	Optimize Tool Usage: Adjust settings and parameters for the chosen tools to maximize their effectiveness. This may include configuring default behaviors, fine-tuning operational parameters, or setting up tool-specific workflows that align with the agents’ objectives.
+      4.	Implement the Changes:
+      •	Modify the Existing Code: Apply the necessary changes to the crew creation code, ensuring that the new tool configurations are correctly implemented for each agent.
+      •	Ensure Compatibility: Verify that the modified code integrates smoothly with the CrewAI framework and does not disrupt any existing functionalities.
+  expected_output: >
+    The expected output is a Python script that generates and configures agents for the crewAI framework.
+      •	A Python script that generates and configures agents in the crewAI framework according to the example code provided in ./input/crew.py.
+      •	The code should be fully functional, creating agents that fulfill their roles, goals, and inter-agent relationships as defined.
+      •	Use the modern way from the example crew.py file where the agent and task definitions are in yaml files and referenced in the code via decorators.
+      •	Remove the surrounding triple quotes around the contents of the file.

@@ -60,3 +60,11 @@ research_task:
       • A well-structured report that includes both the project description and
         the resources list, designed to serve as a reference guide for users
         interested in learning more about the software project.
+        Example:
+
+        # Title
+        ## Description
+        ## Concepts
+        # Resources
+        ## Official
+        ## Community

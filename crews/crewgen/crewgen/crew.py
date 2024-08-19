@@ -45,7 +45,16 @@ class CrewGenCrew():
         )
 
     @agent
-    def create_agent_coder_agent(self) -> Agent:
+    def create_task_designer_agent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['task_designer'],
+            llm=self.llm,
+            verbose=True,
+            allow_delegation=False,
+        )
+
+    @agent
+    def create_coder_agent(self) -> Agent:
         return Agent(
             config=self.agents_config['agent_coder'],
             llm=self.llm,
@@ -54,17 +63,7 @@ class CrewGenCrew():
             allow_delegation=False,
             tools=[
                 FileReadTool(),
-                ScrapeWebsiteTool(website_url='https://docs.crewai.com/core-concepts/Agents/')
             ]
-        )
-
-    @agent
-    def create_task_specialist_agent(self) -> Agent:
-        return Agent(
-            config=self.agents_config['task_agent'],
-            llm=self.llm,
-            verbose=True,
-            allow_delegation=False,
         )
 
     @task
@@ -72,7 +71,7 @@ class CrewGenCrew():
         return Task(
             config=self.tasks_config['team_concept'],
             agent=self.create_manager_agent(),
-            output_file='./output/team_composition.md'
+            output_file='./output/team_concept.md'
         )
 
     @task
@@ -84,16 +83,31 @@ class CrewGenCrew():
         )
 
     @task
-    def agent_code_task(self) -> Task:
+    def task_design_task(self) -> Task:
         return Task(
-            config=self.tasks_config['agent_code'],
-            agent=self.create_agent_coder_agent(),
+            config=self.tasks_config['task_definition'],
+            agent=self.create_task_designer_agent(),
+            output_file='./output/tasks.yaml'
+        )
+
+    @task
+    def crew_code_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['crew_code'],
+            agent=self.create_coder_agent(),
+            output_file='./output/crew.py'
+        )
+	
+    @task
+    def agents_improvement_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['tool_usage'],
+            agent=self.create_coder_agent(),
             output_file='./output/crew.py'
         )
 	
     @crew
     def crew(self) -> Crew:
-        """Creates the Article crew"""
         return Crew(
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
