@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "crewgen"
+version = "0.1.0"
+description = "crewgen using crewAI"
+authors = ["Olaf Geibig <olaf@pobox.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<=3.13"
+
+[tool.poetry.scripts]
+crew = "crewgen.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

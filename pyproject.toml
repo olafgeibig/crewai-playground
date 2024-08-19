@@ -12,6 +12,7 @@ python = ">=3.12,<=3.13"
 article = { path = "./crews/article" }
 storm = { path = "./crews/storm" }
 tooltest = { path = "./crews/tooltest" }
+crewgen = { path = "./crews/crewgen" }
 
 # shared dependencies
 crewai = { extras = ["tools"], version = "^0.51.0" }

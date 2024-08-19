@@ -50,7 +50,7 @@ def create_writer_task(agent, resource, note_file) -> Task:
         Description and concept:
         Scrape the content of the websites from official resources section using the website scraper tool and use the content for the following tasks:
         - Write a comprehensive description for the resource covering all aspects using 200 words min.
-        - Explain the concepts used by the resource using 200 words min.
+        - Explain the concepts used by the resource 200 words min.
         - Choose matching tags from the "note tags" and add them to the note.
         - Extract relevant links from the content of the official resources and add the links to the official resources section.
 
