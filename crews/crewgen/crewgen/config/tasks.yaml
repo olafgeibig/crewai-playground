@@ -1,0 +1,65 @@
+team_task:
+  name: "Create a team of agents"
+  description: >
+    Define Team Composition for a purpose "{team purpose}"
+
+    Objective:
+    The Team Manager is tasked with creating a well-structured team composition that aligns with the specified purpose of the team. The team should consist of agents with clearly defined roles, each tailored to contribute effectively to the overarching team objective. The Team Manager must consider the necessary skill sets, expertise, and balance required to achieve the team’s goals.
+
+    Steps to Complete the Task:
+
+      1. Understand the Team Purpose:
+      •	Review the overall objective and purpose of the team.
+      •	Identify the key challenges and tasks that the team needs to address.
+      •	Determine the skills, expertise, and experience necessary to accomplish the team’s goals.
+      2. Identify Key Roles:
+      •	Based on the team’s purpose, identify the core roles that are essential to achieving the objective.
+      •	Consider roles that cover all necessary aspects of the project, including strategy, technical expertise, execution, and quality control.
+      3. Define Agents and Their Roles:
+      •	Create a list of agents, each with a specific role, name, and brief description of their function within the team.
+      •	Ensure that the roles are distinct yet complementary, allowing for efficient collaboration and minimal overlap.
+  expected_output: >
+    Team Composition Document:
+      •	Overview: A brief summary of the team’s purpose and the overall objective that the team is intended to achieve.
+      •	Agent List: A detailed list of the agents, including:
+      •	Name of each agent: A unique identifier or name for each agent.
+      •	Role description: A concise but clear explanation of the role that each agent will play within the team.
+      •	Functionality: A description of the tasks or responsibilities that each role encompasses, focusing on how they contribute to the team’s objectives.
+      •	Role Rationale: A section explaining the reasoning behind the selection of each role, detailing why each is necessary and how it fits into the overall team strategy.
+      •	Inter-Agent Relationships: An outline of how the agents will interact with each other, including any hierarchical structures, dependencies, or collaboration points that are critical for team success.""",
+  
+agent_task:
+  name: Create agent definitions
+  description: >
+    Develop Detailed Goals and Backstories for Each Agent
+
+    Objective:
+    The Agent Specialist is tasked with crafting detailed goals and backstories for each agent within the team, ensuring that each narrative aligns with the overall team purpose and fosters a cohesive, high-performance team dynamic. The backstories should provide rich context that motivates the agents’ roles and goals, enhancing their interaction and collaboration.
+
+    Steps to Complete the Task:
+
+      1. Review Team Composition and Roles:
+      •	Begin by thoroughly reviewing the team composition and the roles defined by the Team Manager.
+      •	Understand the overarching team purpose and how each role contributes to the team’s success.
+      2. Define Individual Goals:
+      •	For each agent, create a specific, measurable, and aligned goal that guides their decision-making process.
+      •	Ensure that each goal contributes directly to the team’s overall objectives and enhances the agent’s role within the team.
+      3. Develop Interconnected Backstories:
+      •	Create a detailed backstory for each agent that explains their motivation, experience, and how they fit into the team.
+      •	Ensure that the backstories are interconnected, reflecting a shared history or set of experiences that strengthen the team’s cohesion.
+      •	Incorporate elements that demonstrate why these particular agents work well together, fostering a sense of unity and collaboration.
+      4. Foster a High-Performance Team Dynamic:
+      •	Design the backstories to highlight the agents’ complementary skills and personalities, illustrating how they support and elevate each other’s performance.
+      •	Include narrative elements that explain how each agent’s background prepares them for their role and contributes to the team’s success.
+      5. Ensure Alignment with the CrewAI Framework:
+      •	Utilize your expertise in the CrewAI framework to ensure that the goals and backstories are feasible within the system and enhance the agents’ functionality.
+      •	Ensure that each backstory includes elements that could influence the agent’s decision-making and interactions within the CrewAI environment.
+
+  expected_output: >
+    A yaml file containing agent definitions like in the following example. You can use self defined variables in curly braces to parametrize the definition:
+    researcher:
+      role: <agent name>
+      goal: >
+        <agent goals and responsibilities> 
+      backstory: >
+        <detailled backstory of the agent>
