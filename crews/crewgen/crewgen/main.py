@@ -1,23 +1,45 @@
-from langchain_openai import ChatOpenAI
-from dotenv import load_dotenv
-from crew import CrewGenCrew
-import os
+from crewgen.crew import CrewGenCrew
+import sys
 
-def main():
-    load_dotenv()
-    # llm=ChatOpenAI(model="gpt-4o", temperature=0.7)
-    DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-    llm = ChatOpenAI(
-        model="deepseek-chat", 
-        api_key=DEEPSEEK_API_KEY, 
-        base_url="https://api.deepseek.com/beta",
-        temperature=0.0
-    )
+def run():
+    # Replace with your inputs, it will automatically interpolate any tasks and agents information
+    inputs = {
+        'team_purpose': 'Create a note about a given software project or product. research the internet about the project, identify the links to the official resources, read the official resources and write a description of teh project and its concepts. Add a resources section with links to discussions, articles, blog posts, how-tos, videos, etc.'
+    }
+    CrewGenCrew().crew().kickoff(inputs=inputs)
 
-    crew = CrewGenCrew(llm)
-    result = crew.run("create note about a given software project or product. research the internet and create a note about the project")
-    print("Agent's response:")
-    print(result)
+def train():
+    """
+    Train the crew for a given number of iterations.
+    """
+    inputs = {
+        'team_purpose': 'Create a note about a given software project or product. research the internet about the project, identify the links to the official resources, read the official resources and write a description of teh project and its concepts. Add a resources section with links to discussions, articles, blog posts, how-tos, videos, etc.'
+    }
+    try:
+        CrewGenCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
-if __name__ == "__main__":
-    main()
+    except Exception as e:
+        raise Exception(f"An error occurred while training the crew: {e}")
+
+def replay():
+    """
+    Replay the crew execution from a specific task.
+    """
+    try:
+        CrewGenCrew().crew().replay(task_id=sys.argv[1])
+
+    except Exception as e:
+        raise Exception(f"An error occurred while replaying the crew: {e}")
+
+def test():
+    """
+    Test the crew execution and returns the results.
+    """
+    inputs = {
+        'team_purpose': 'Create a note about a given software project or product. research the internet about the project, identify the links to the official resources, read the official resources and write a description of teh project and its concepts. Add a resources section with links to discussions, articles, blog posts, how-tos, videos, etc.'
+    }
+    try:
+        CrewGenCrew().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
+
+    except Exception as e:
+        raise Exception(f"An error occurred while replaying the crew: {e}")

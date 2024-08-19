@@ -8,7 +8,11 @@ authors = ["Olaf Geibig <olaf@pobox.com>"]
 python = ">=3.12,<=3.13"
 
 [tool.poetry.scripts]
-crew = "crewgen.main:main"
+crewgen = "crewgen.main:run"
+run_crew = "crewgen.main:run"
+train = "crewgen.main:train"
+replay = "crewgen.main:replay"
+test = "crewgen.main:test"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,0 +1,62 @@
+research_task:
+  name: Research task
+  description: >
+    Conduct Comprehensive Research on the topic "{topic}"
+
+    Objective:
+    The Research Analyst is tasked with conducting thorough research on the
+    specified software project, [Software Project Name]. The agent will gather
+    information from official resources, synthesize key insights, and compile a
+    detailed description of the project. Additionally, the agent will curate a
+    comprehensive list of resources, including articles, tutorials, discussions,
+    and videos, to provide users with further learning opportunities.
+
+    Steps to Complete the Task:
+
+      1. Identify and Collect Official Resources:
+      • Locate the official website, documentation, repositories, and any other
+        primary resources related to the software project.
+      • Gather links to these resources for reference and inclusion in the final
+        report.
+      2. Explore Community and Secondary Resources:
+      • Research community-driven platforms such as forums, Reddit, and Stack
+        Overflow to identify discussions and user experiences related to the
+        project.
+      • Search for relevant articles, blog posts, and tutorials that provide
+        additional context or advanced insights into the software.
+      3. Synthesize Information:
+      • Read through the official documentation and other collected resources to
+        understand the core concepts, functionalities, and unique selling points
+        of the software project.
+      • Write a clear and concise description of the project, covering its
+        purpose, key features, target audience, and how it differentiates itself
+        from similar products.
+      4. Compile a Comprehensive Resources List:
+      • Curate a list of resources that includes:
+      • Official Documentation: Links to the official docs, APIs, and
+        repositories.
+      • Community Discussions: Links to forums, Reddit threads, Stack Overflow
+        questions, and other community discussions.
+      • Articles and Blog Posts: A selection of relevant articles and blog posts
+        that provide deeper insights into the software project.
+      • How-To Guides and Tutorials: Links to tutorials, walkthroughs, and
+        step-by-step guides.
+      • Videos: Collection of video tutorials, webinars, and conference talks
+        related to the software project.
+      5. Document the Findings:
+      • Prepare a report that includes the detailed description of the software
+        project and the curated resources list.
+      • Ensure that the report is well-organized, with clear headings and
+        sections for easy navigation.
+  expected_output: >
+      1. Project Description:
+      • A clear, concise overview of the software project, including its
+        purpose, key features, and core concepts.
+      2. Resources List:
+      • A comprehensive list of resources categorized into official
+        documentation, community discussions, articles, tutorials, and videos,
+        providing users with multiple avenues to explore the project further.
+      3. Final Report:
+      • A well-structured report that includes both the project description and
+        the resources list, designed to serve as a reference guide for users
+        interested in learning more about the software project.
