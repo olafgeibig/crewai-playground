@@ -1,7 +1,8 @@
 from crewai import Agent, Task, Crew, Process
-from crewai.project import CrewBase, agent, task, crew
+from crewai.project import CrewBase, agent, task, crew, llm
 from crewai_tools import ScrapeWebsiteTool, FileReadTool
 from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
 import os
 
@@ -12,30 +13,77 @@ class CrewGenCrew():
 
     def __init__(self) -> None:
         load_dotenv()
-        # llm=ChatOpenAI(model="gpt-4o", temperature=0.7)
+        # self.agent_coder = agent_coder(self)
+
+
+    # ======== LLM Definitions ========================================
+
+    @llm
+    def deepseek_chat_llm(self):
         DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-        self.llm = ChatOpenAI(
+        return ChatOpenAI(
             model="deepseek-chat", 
             api_key=DEEPSEEK_API_KEY, 
             base_url="https://api.deepseek.com/beta",
             temperature=0.0
         )
+    
+    @llm
+    def deepseek_coder_llm(self):
+        DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+        return ChatOpenAI(
+            model="deepseek-coder", 
+            api_key=DEEPSEEK_API_KEY, 
+            base_url="https://api.deepseek.com/beta",
+            temperature=0.0
+        )
+    
+    @llm
+    def gpt4o_llm(self):
+        return ChatOpenAI(model="gpt-4o-latest", temperature=0.7)
+    
+    @llm 
+    def sonnet_llm(self):
+        return ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.7)
+
+    # ======== LLM Abstractions
+
+    @llm
+    def default_llm(self):
+        return self.deepseek_chat_llm()
+    
+    @llm
+    def simple_llm(self):
+        return self.deepseek_chat_llm()
+    
+    @llm
+    def reasoning_llm(self):
+        return self.gpt4o_llm()
+    
+    @llm
+    def smart_llm(self):
+        return self.sonnet_llm()
+    
+    @llm
+    def coding_llm(self):
+        return self.deepseek_coder_llm()
+    
+
+    # ======== Agent Definitions ========================================
 
     @agent
-    def create_manager_agent(self) -> Agent:
+    def crew_designer(self) -> Agent:
         return Agent(
-            config=self.agents_config['manager_agent'],
-            llm=self.llm,
+            config=self.agents_config['crew_designer'],
             verbose=True,
             memory=True,
             allow_delegation=False,      
         )
 
     @agent
-    def create_agent_designer_agent(self) -> Agent:
+    def agent_designer(self) -> Agent:
         return Agent(
             config=self.agents_config['agent_designer'],
-            llm=self.llm,
             verbose=True,
             memory=True,
             allow_delegation=False,
@@ -45,19 +93,18 @@ class CrewGenCrew():
         )
 
     @agent
-    def create_task_designer_agent(self) -> Agent:
+    def task_designer(self) -> Agent:
         return Agent(
             config=self.agents_config['task_designer'],
-            llm=self.llm,
             verbose=True,
+            memory=True,
             allow_delegation=False,
         )
 
     @agent
-    def create_coder_agent(self) -> Agent:
+    def agent_coder(self) -> Agent:
         return Agent(
             config=self.agents_config['agent_coder'],
-            llm=self.llm,
             verbose=True,
             memory=True,
             allow_delegation=False,
@@ -66,46 +113,52 @@ class CrewGenCrew():
             ]
         )
 
+
+    # ======== Task Definitions ========================================
+
     @task
-    def team_task(self) -> Task:
+    def crew_concept(self) -> Task:
         return Task(
-            config=self.tasks_config['team_concept'],
-            agent=self.create_manager_agent(),
-            output_file='./output/team_concept.md'
+            config=self.tasks_config['crew_concept'],
+            # agent=self.crew_designer(),
+            output_file='./output/crew_concept.md'
         )
 
     @task
-    def agent_design_task(self) -> Task:
+    def agent_definition(self) -> Task:
         return Task(
             config=self.tasks_config['agent_definition'],
-            agent=self.create_agent_designer_agent(),
+            # agent=self.agent_designer(),
             output_file='./output/agents.yaml'
         )
 
     @task
-    def task_design_task(self) -> Task:
+    def task_definition(self) -> Task:
         return Task(
             config=self.tasks_config['task_definition'],
-            agent=self.create_task_designer_agent(),
+            # agent=self.task_designer(),
             output_file='./output/tasks.yaml'
         )
 
     @task
-    def crew_code_task(self) -> Task:
+    def crew_code(self) -> Task:
         return Task(
             config=self.tasks_config['crew_code'],
-            agent=self.create_coder_agent(),
+            # agent=self.agent_coder(),
             output_file='./output/crew.py'
         )
 	
     @task
-    def agents_improvement_task(self) -> Task:
+    def tool_usage(self) -> Task:
         return Task(
             config=self.tasks_config['tool_usage'],
-            agent=self.create_coder_agent(),
+            # agent=self.agent_coder(),
             output_file='./output/crew.py'
         )
 	
+
+    # ======== Crew Definition ========================================
+
     @crew
     def crew(self) -> Crew:
         return Crew(
@@ -115,4 +168,7 @@ class CrewGenCrew():
             verbose=True,
             cache=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+            # memory=True,  # Enable memory usage for enhanced task execution
+            # manager_llm=self.llm,  # Optional: explicitly set a specific agent as manager instead of the manager_llm
+            # planning=True,  # Enable planning feature for pre-execution strategy
         )

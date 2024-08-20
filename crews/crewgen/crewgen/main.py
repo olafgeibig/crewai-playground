@@ -2,10 +2,15 @@ from crewgen.crew import CrewGenCrew
 import sys
 
 inputs = {
-    'team_purpose': """
-Create a note about a given software project or product. research the internet about the project, identify 
-the links to the official resources, read the official resources and write a description of teh project 
-and its concepts. Add a resources section with links to discussions, articles, blog posts, how-tos, videos, etc."""
+#     'crew_purpose': """
+# Create a note about a given software project or product. research the internet about the project, identify 
+# the links to the official resources, read the official resources and write a description of the project 
+# and its concepts. Add a resources section with links to discussions, articles, blog posts, how-tos, videos, etc."""
+    'crew_purpose': """
+Take open github issues of a project, classify them as bugs, feature-requests, improvements, etc.
+Understand the code base and judge the effort to work on each issue, classify them as easy, medium, hard, etc.
+create a report with a visual representation of the issues and their properties, so that it's more easy to
+decide which issue to work on next.""",
 }
 
 def run():

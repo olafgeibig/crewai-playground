@@ -1,70 +1,129 @@
 research_task:
-  name: Research task
+  name: Research Task
   description: >
     Conduct Comprehensive Research on the topic "{topic}"
 
     Objective:
-    The Research Analyst is tasked with conducting thorough research on the
-    specified software project, [Software Project Name]. The agent will gather
-    information from official resources, synthesize key insights, and compile a
-    detailed description of the project. Additionally, the agent will curate a
+    Conduct thorough research on the topic "{topic}". The agent will gather
+    information from authoritative resources, synthesize key insights, and compile a
+    detailed summary of the topic. Additionally, the agent will curate a
     comprehensive list of resources, including articles, tutorials, discussions,
-    and videos, to provide users with further learning opportunities.
-
+    and videos, to provide users with further learning opportunities. Research
+    the internet for websites related to the topic.
+   
+    Tool hints:
+      - Use a website search engine to find relevant websites and articles.
+      
     Steps to Complete the Task:
-
-      1. Identify and Collect Official Resources:
-      • Locate the official website, documentation, repositories, and any other
-        primary resources related to the software project.
-      • Gather links to these resources for reference and inclusion in the final
-        report.
+      1. Identify and Collect Authoritative Resources:
+      - Locate credible and authoritative sources related to the topic, including academic journals,
+        official publications, reputable websites, and other primary resources.
+      - Gather links to these resources for reference and inclusion in the final report.
       2. Explore Community and Secondary Resources:
-      • Research community-driven platforms such as forums, Reddit, and Stack
-        Overflow to identify discussions and user experiences related to the
-        project.
-      • Search for relevant articles, blog posts, and tutorials that provide
-        additional context or advanced insights into the software.
+      - Research community-driven platforms such as forums, Reddit, and social media to identify discussions
+        and user perspectives related to the topic.
+      - Search for relevant articles, blog posts, and tutorials that provide
+        additional context or advanced insights into the topic.
       3. Synthesize Information:
-      • Read through the official documentation and other collected resources to
-        understand the core concepts, functionalities, and unique selling points
-        of the software project.
-      • Write a clear and concise description of the project, covering its
-        purpose, key features, target audience, and how it differentiates itself
-        from similar products.
+      - Read through the gathered resources to understand the core concepts, key insights, and varying perspectives on the topic.
+      - Write a clear and concise summary of the topic, covering its key points, significance, and any relevant debates or controversies.
       4. Compile a Comprehensive Resources List:
-      • Curate a list of resources that includes:
-      • Official Documentation: Links to the official docs, APIs, and
-        repositories.
-      • Community Discussions: Links to forums, Reddit threads, Stack Overflow
-        questions, and other community discussions.
-      • Articles and Blog Posts: A selection of relevant articles and blog posts
-        that provide deeper insights into the software project.
-      • How-To Guides and Tutorials: Links to tutorials, walkthroughs, and
-        step-by-step guides.
-      • Videos: Collection of video tutorials, webinars, and conference talks
-        related to the software project.
+      - Curate a list of resources that includes:
+      - Authoritative Sources: Links to academic papers, official reports, and primary documents.
+      - Community Discussions: Links to forums, Reddit threads, and social media discussions.
+      - Articles and Blog Posts: A selection of relevant articles and blog posts
+        that provide deeper insights into the topic.
+      - How-To Guides and Tutorials: Links to tutorials, walkthroughs, and
+        educational guides.
+      - Videos: Collection of video lectures, webinars, and interviews
+        related to the topic.
       5. Document the Findings:
-      • Prepare a report that includes the detailed description of the software
-        project and the curated resources list.
-      • Ensure that the report is well-organized, with clear headings and
+      - Prepare a report that includes the detailed summary of the topic and the curated resources list.
+      - Ensure that the report is well-organized, with clear headings and
         sections for easy navigation.
+
   expected_output: >
-      1. Project Description:
-      • A clear, concise overview of the software project, including its
-        purpose, key features, and core concepts.
+      1. Topic Summary:
+      - A clear, concise overview of the topic, including its
+        key points, significance, and any relevant debates or controversies.
       2. Resources List:
-      • A comprehensive list of resources categorized into official
-        documentation, community discussions, articles, tutorials, and videos,
-        providing users with multiple avenues to explore the project further.
+      - A comprehensive list of resources categorized into authoritative sources, community discussions, articles, tutorials, and videos,
+        providing users with multiple avenues to explore the topic further.
       3. Final Report:
-      • A well-structured report that includes both the project description and
-        the resources list, designed to serve as a reference guide for users
-        interested in learning more about the software project.
+      - A well-structured report that includes both the topic summary and the resources list, designed to serve as a reference guide for users
+        interested in learning more about the topic.
         Example:
 
         # Title
-        ## Description
-        ## Concepts
+        ## Summary
+        ## Key Points
         # Resources
-        ## Official
+        ## Authoritative
         ## Community
+  agent: research_agent
+
+writing_task:
+  name: Content Writing Task
+  description: >
+    Create Engaging Content on the topic "{topic}"
+
+    Objective:
+    The Senior Content Writer is tasked with crafting clear, compelling, and audience-focused content
+    on the topic "{topic}". The agent will transform gathered insights and information into well-structured
+    content that effectively communicates the topic's significance, key points, and value. The content should be
+    tailored to resonate with the target audience, whether it's for a blog post, tutorial, marketing copy, or other 
+    forms of content. Read the top relevant websites from the resources list to identify the best content to 
+    include in the final report. 
+    
+    Tool hints:
+      - Use a website scraper to extract the content for reading
+
+    Steps to Complete the Task:
+
+      1. Analyze Information:
+      - Review the detailed information and resources gathered on the topic.
+      - Identify the key messages, unique selling points, and the core narrative that will drive the content.
+      - Determine the appropriate tone, style, and format for the content based on the target audience.
+
+      2. Outline the Content:
+      - Develop an outline that structures the content logically, ensuring a clear flow from introduction
+        to conclusion.
+      - Include key sections such as an engaging introduction, a detailed explanation of the topic's
+        key points, and a strong conclusion with a call to action (if applicable).
+      - Plan the use of subheadings, bullet points, and visuals to enhance readability and engagement.
+
+      3. Write the Content:
+      - Draft the content following the outline, ensuring it is clear, concise, and engaging.
+      - Use storytelling techniques where appropriate to make the content more relatable and memorable.
+      - Incorporate key terms and concepts identified in the research to ensure accuracy and relevance.
+
+      4. Edit and Refine:
+      - Review the content for clarity, coherence, and alignment with the overall messaging strategy.
+      - Edit for grammar, punctuation, and style consistency.
+      - Ensure the content is free from jargon, making it accessible to both technical and non-technical audiences.
+
+      5. Finalize and Format:
+      - Finalize the content, ensuring it is well-structured and polished.
+      - Add any necessary formatting, such as headings, bullet points, and links to relevant resources.
+      - Ensure the content is optimized for the intended platform (e.g., blog, website, tutorial).
+
+  expected_output: >
+      1. Content Draft:
+      - A complete draft of the content, including all key sections and elements as outlined in the task.
+      2. Finalized Content:
+      - A polished and well-structured piece of content that effectively communicates the topic's
+        significance, key points, and value, tailored to the target audience.
+      3. Formatted Content:
+      - The content formatted and ready for publication or distribution on the intended platform, with any
+        necessary links to additional resources or further reading included.
+        Example:
+
+        # Title
+        ## Introduction
+        ## Main Content (Key Points, Benefits, etc.)
+        ## Conclusion (Call to Action if applicable)
+        # Additional Resources
+        ## Links to relevant tutorials, articles, or videos.
+  agent: content_writer
+  context:
+    - research_task
