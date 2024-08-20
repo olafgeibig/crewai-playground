@@ -11,6 +11,7 @@ crew_concept:
     and ensuring each role is specialized to meet the project's needs effectively.
 
     Steps to Complete the Task:
+      0. As the first step simply copy the crew pupose definition into the crew concept.
       1.	Define the Goal:
         - Identify the primary objective: Clearly articulate the main goal that the multi-agent system (crew) 
           is intended to accomplish. This could range from solving a specific problem to achieving a particular 
@@ -64,7 +65,7 @@ agent_definition:
     and fosters a cohesive, high-performance crew dynamic. The backstories should provide rich context that motivates the agents' 
     roles and goals, enhancing their interaction and collaboration. 
     IMPORTANT: Always include an agent for quality assurance to review the crew's results.
-    Write the agent definitions in a YAML file in the crewAI format, like the examples in ./input/config/agents.yaml.
+    Read the examples in ./input/config/agents.yaml.
 
     Steps to Complete the Task:
       1. Review Crew Concept and Roles:
@@ -91,7 +92,7 @@ agent_definition:
   expected_output: >
     Agent Definitions in a YAML file, each line max 100 chars. Possibly add variables to parametrize the 
     agent description. See the example in ./input/config/agents.yaml. 
-    IMPORTANT: Generate the pure YAML without markdown triple quotes around the contents of the file.
+    IMPORTANT: Please provide the YAML code as plain text without markdown formatting.
     The YAML format for each agent:
 
     agent_name:
@@ -106,14 +107,16 @@ agent_definition:
     - crew_concept
   
 task_definition:
-  name: Generate Task Definitions Based on Crew Concept and Agent Roles
+  name: Generate Task Definitions
   description: >
-    Objective:
-    The Task Designer is responsible for analyzing the crew concept and breaking it down into agent-specific tasks that 
-    align with the roles and responsibilities. The Task Designer will ensure that each task supports 
+    Generate Task Definitions Based on Crew Concept and Agent Roles.
+
+    Analyze the crew concept and breaking it down into agent-specific tasks that 
+    align with the roles and responsibilities. Ensure that each task supports 
     the intended process and workflow as envisioned by the crew concept. Tasks should be focused and avoid too many steps.
     IMPORTANT: It's better to have multiple focused tasks with a clear objective and output for an agent than one big task.
-    Write the task definitions in a YAML file in the crewAI format, like the examples in ./input/config/tasks.yaml.
+    IMPORTANT: Please provide the YAML code as plain text without markdown formatting.
+    Read the examples in ./input/config/tasks.yaml.
 
     Steps to Complete the Task:
       1.	Study the Crew Concept and Agent Definitions:
@@ -146,7 +149,7 @@ task_definition:
   expected_output: >
     Task Definitions in a YAML file. Each line should be a maximum of 100 characters. Consider adding variables in curly braces to parametrize the task definition with user input.
     Refer to the example in ./input/config/tasks.yaml.
-    IMPORTANT: Generate the pure YAML without markdown triple quotes around the contents of the file.
+    IMPORTANT: Please provide the YAML code as plain text without markdown formatting.
     The format for each task should look like this:
 
     task_name:
@@ -163,17 +166,18 @@ task_definition:
   context:
     - crew_concept
     - agent_definition
-
+  
 crew_code:
   name: Generate Code for a crewAI Crew
   description: >
-    Objective:
-    Writin code that creates and configures agents, tasks, and a crew within the crewAI framework. 
+    Generate Code for a crewAI Crew.
+
+    Write code that creates and configures agents, tasks, and a crew within the crewAI framework. 
     This task MUST be completed using the modern crewAI approach, which utilizes decorators and YAML-based definitions instead of 
     the older programmatic approach. This modern style has huge advantages for maintainability of the solution.
     The agent should note that the programmatic coding style often seen in the documentation examples is used primarily for simplicity and should not be followed. 
-  
     Read the example in ./input/crew.py.
+    Read the the generated ./output/agents.yaml and./output/tasks.yaml files.
 
     Key considerations for the modern approach include:
       - **Copy Example Code**: Begin by copying the example crew.py file. Modify this base code to fit the specific task and agent definitions provided for this crew.
@@ -200,7 +204,7 @@ crew_code:
     - Correctly configured agents, tasks, and crews within the crewAI framework.
     - Follow the modern approach using decorators and YAML-based definitions, ensuring maintainability.
     - Use the correct YAML identifiers from tasks and agents definition in the generated crew.py to ensure accurate agent and task configuration.
-    - Generate pure Python code without any surrounding markdown or additional formatting.
+    - Please provide the Python code as plain text without markdown formatting.
   agent: agent_coder
   context:
     - crew_concept
@@ -210,17 +214,17 @@ crew_code:
 tool_usage:
   name: Choose Tools for the Crew
   description: >
-    Objective:
-    Improve the existing crew code within the crewAI framework by optimizing tool usage for agents. 
+    Improve the existing crew code choosing suitable tool for the agents.
 
     The agent must ensure that the chosen tools align with the agents' roles, tasks, and the overall crew objectives. The focus is on selecting 
     and configuring tools that enhance each agent's efficiency and effectiveness, guided by the skills and tool requirements identified in the 
-    concept and task definitions.
+    concept and task definitions. Only choose tools from ./input/tools.md - don't make up tools that do not exist.
 
     This task MUST be completed using the modern crewAI approach, which utilizes decorators and YAML-based definitions instead of 
     the older programmatic approach. This modern style has huge advantages for maintainability of the solution.
     The agent should note that the programmatic coding style often seen in the documentation examples is used primarily for simplicity and should not be followed.
 
+    Read ./input/tools.md
     Read and modify ./output/crew.py
 
     Steps to Complete the Task:  

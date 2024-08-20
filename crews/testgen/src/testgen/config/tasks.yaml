@@ -1,0 +1,484 @@
+repository_analysis_task:
+  name: Analyze crewAI-tools Repository
+  description: >
+    Analyze the crewAI-tools repository to identify all tool-related files and directories.
+
+    Objective:
+    Access the crewAI-tools repository, and perform a thorough analysis of its structure to
+    identify all files and directories related to the tools. Provide a structured list of tools and their
+    locations for use by other agents in the documentation process.
+
+    Steps to Complete the Task:
+      1. The source code is loacted at "./repo/crewAI-tools-main/crewai_tools/tools"
+      2. Analyze Repository Structure:
+      - Navigate through the repository's directory structure.
+      - Identify main directories and subdirectories related to tools.
+      - Look for patterns in file naming or directory organization that indicate tool-related content.
+
+      3. Identify Tool-Related Files:
+      - Scan for Python files (.py) that likely contain tool implementations.
+      - Look for accompanying documentation files (e.g., README.md, .rst files) for each tool.
+      - Identify any configuration or requirement files associated with the tools.
+
+      4. Create Structured List:
+      - Compile a list of all identified tools.
+      - For each tool, note its location within the repository structure.
+      - Include any relevant metadata (e.g., file names, associated documentation files).
+
+      5. Organize and Format Output:
+      - Structure the list in a clear, hierarchical format.
+      - Ensure the output is easily readable and usable by other agents.
+
+  expected_output: >
+    A structured list of all tools found in the crewAI-tools repository, including:
+    - Tool names
+    - File locations (paths) within the repository
+    - Associated files (e.g., implementation files, documentation files)
+    - Any notable patterns or organization schemes observed
+
+    Example format:
+    ```
+    1. Tool Name: ExampleTool
+       - Implementation: /path/to/example_tool.py
+       - Documentation: /path/to/example_tool_readme.md
+       - Configuration: /path/to/example_tool_config.yaml
+
+    2. Tool Name: AnotherTool
+       - Implementation: /path/to/another_tool.py
+       - Documentation: /path/to/another_tool_docs/
+       ...
+    ```
+  agent: repository_analyzer
+
+code_extraction_task:
+  name: Extract Tool Information
+  description: >
+    Parse and extract essential information from each tool's source code in the crewAI-tools repository.
+    The source code is loacted at "./repo/crewAI-tools-main/crewai_tools/tools"
+
+    Objective:
+    Analyze the source code of each identified tool in the crewAI-tools repository. Extract key
+    information including the tool's name, description, arguments, and any specific requirements
+    (e.g., API keys, libraries). Organize this information in a structured format for documentation.
+
+    Steps to Complete the Task:
+      1. Access Tool Source Code:
+      - Use the structured list provided by the Repository Analyzer to locate each tool's files.
+      - Open and read the contents of each tool's README file.
+      - If there is no README file, look examine the tool's source code to extract the information.
+
+      3. Extract Key Information:
+      - Identify and extract the tool's name.
+      - Collect the tool's description.
+      - List all arguments/parameters used by the tool, including their types and default values.
+      - Note any specific requirements mentioned in the code (e.g., required libraries, API keys).
+
+      4. Analyze Import Statements:
+      - Review import statements to identify external dependencies.
+      - Note any specific version requirements for dependencies, if mentioned.
+
+      5. Organize Extracted Information:
+      - Compile the extracted information for each tool into a structured format.
+      - Ensure consistency in the information structure across all tools.
+
+  expected_output: >
+    A structured document containing detailed information for each tool, including:
+    - Tool name
+    - Description
+    - Arguments (name, type, default value, description)
+    - Requirements (API keys, libraries, etc.)
+    - Dependencies
+
+    Example format:
+    ```
+    Tool Name: ExampleTool
+    Description: A tool for performing example operations in crewAI.
+    Arguments:
+      - name: input_data
+        type: str
+        default: None
+        description: The input data to process
+      - name: operation_type
+        type: str
+        default: 'default'
+        description: The type of operation to perform
+    Requirements:
+      - API Key: Requires an API key for ExampleService
+    Dependencies:
+      - requests==2.26.0
+      - numpy>=1.21.0
+    ```
+  agent: code_extractor
+  context:
+    - repository_analysis_task
+
+use_case_identification_task:
+  name: Identify Tool Use Cases
+  description: >
+    Analyze each tool's functionality and determine potential use cases for AI agents.
+
+    Objective:
+    Based on the extracted information about each tool, identify and articulate practical and
+    innovative use cases that demonstrate the tool's value and potential applications for AI agents
+    in various scenarios.
+
+    Steps to Complete the Task:
+      1. Review Tool Information:
+      - Examine the detailed information provided by the Code Extractor for each tool.
+      - Understand the tool's core functionality, inputs, outputs, and any specific requirements.
+
+      2. Brainstorm Potential Applications:
+      - Consider various AI agent scenarios where the tool could be beneficial.
+      - Think about how the tool could be used in different industries or problem domains.
+
+      3. Develop Use Case Scenarios:
+      - For each identified application, create a brief scenario describing how an AI agent would use the tool.
+      - Include the context, the problem being solved, and how the tool contributes to the solution.
+
+      4. Evaluate Practicality and Innovation:
+      - Assess each use case for its practicality and potential impact.
+      - Prioritize use cases that demonstrate unique or particularly valuable applications of the tool.
+
+      5. Compile Use Case List:
+      - Create a structured list of use cases for each tool.
+      - Ensure each use case is clearly described and relevant to AI agents.
+
+  expected_output: >
+    A document listing potential use cases for each tool, including:
+    - Brief description of each use case
+    - The problem or scenario it addresses
+    - How the tool is applied in the context of an AI agent
+    - Any specific benefits or unique aspects of using the tool in this way
+
+    Example format:
+    ```
+    Tool Name: ExampleTool
+    Use Cases:
+    1. Data Preprocessing for NLP Tasks
+       - Scenario: An AI agent processing large volumes of text data for sentiment analysis.
+       - Application: ExampleTool is used to clean and normalize text data before analysis.
+       - Benefits: Improves accuracy of sentiment analysis by standardizing input data.
+
+    2. Real-time Decision Making in Autonomous Systems
+       - Scenario: An AI agent in a self-driving car making rapid decisions.
+       - Application: ExampleTool processes sensor data to quickly identify obstacles.
+       - Benefits: Enables fast, accurate object detection crucial for safety.
+    ```
+  agent: use_case_specialist
+  context:
+    - code_extraction_task
+
+documentation_writing_task:
+  name: Write Tool Documentation
+  description: >
+    Create comprehensive documentation for each tool in the crewAI-tools project.
+
+    Objective:
+    Transform the extracted information, use cases, and any additional relevant details into clear,
+    well-structured documentation for each tool. Ensure consistency in format and style across all
+    tool documentation.
+
+    Steps to Complete the Task:
+      1. Gather Information:
+      - Review the extracted tool information from the Code Extractor.
+      - Examine the use cases provided by the Use Case Specialist.
+      - Consider any additional context or information about the crewAI project that may be relevant.
+
+      2. Structure the Documentation:
+      - Create a consistent template for documenting each tool.
+      - Include sections for tool name, description, arguments, requirements, dependencies, and use cases.
+
+      3. Write Detailed Content:
+      - Craft clear and concise descriptions of each tool's functionality.
+      - Explain each argument, including its purpose, type, and any default values.
+      - Detail any specific requirements or setup instructions.
+      - Incorporate the identified use cases, providing context and examples.
+
+      4. Add Examples and Code Snippets:
+      - Create practical examples demonstrating how to use the tool.
+      - Include code snippets that illustrate typical usage scenarios.
+
+      5. Ensure Clarity and Consistency:
+      - Use consistent terminology and formatting across all tool documentation.
+      - Ensure that explanations are clear and accessible to both novice and experienced users.
+
+      6. Review and Refine:
+      - Proofread the documentation for clarity, completeness, and accuracy.
+      - Make any necessary adjustments to improve readability and understanding.
+
+  expected_output: >
+    A set of markdown files, one for each tool, containing comprehensive documentation. Each file should include:
+    - Tool name and brief description
+    - Detailed explanation of functionality
+    - List of arguments with descriptions
+    - Requirements and dependencies
+    - Installation or setup instructions (if applicable)
+    - Usage examples with code snippets
+    - Use cases demonstrating practical applications
+    - Any additional relevant information
+
+    Example format:
+    ```markdown
+    # ExampleTool
+
+    ## Description
+    ExampleTool is a utility for processing and analyzing data in crewAI projects. It provides
+    efficient methods for data transformation and feature extraction.
+
+    ## Arguments
+    - `input_data` (str): The input data to be processed. Default: None
+    - `operation_type` (str): The type of operation to perform. Default: 'default'
+
+    ## Requirements
+    - API Key: Requires an API key for ExampleService. Set as environment variable `EXAMPLE_API_KEY`.
+
+    ## Dependencies
+    - requests==2.26.0
+    - numpy>=1.21.0
+
+    ## Installation
+    ```bash
+    pip install crewai-exampletool
+    ```
+
+    ## Usage
+    ```python
+    from crewai_tools import ExampleTool
+
+    tool = ExampleTool(input_data="sample data", operation_type="analyze")
+    result = tool.process()
+    print(result)
+    ```
+
+    ## Use Cases
+    1. Data Preprocessing for NLP Tasks
+       [Description of use case]
+
+    2. Real-time Decision Making in Autonomous Systems
+       [Description of use case]
+    ```
+  agent: documentation_writer
+  context:
+    - code_extraction_task
+    - use_case_identification_task
+
+quality_assurance_task:
+  name: Review Documentation Quality
+  description: >
+    Review and ensure the quality, accuracy, and consistency of the generated tool documentation.
+
+    Objective:
+    Thoroughly examine all generated documentation for each tool, checking for accuracy,
+    completeness, clarity, and consistency across the entire documentation set.
+
+    Steps to Complete the Task:
+      1. Review Documentation Content:
+      - Read through each tool's documentation carefully.
+      - Verify that all required sections (description, arguments, requirements, etc.) are present and complete.
+
+      2. Check for Accuracy:
+      - Cross-reference the documentation with the original tool information and use cases.
+      - Ensure that all technical details, including arguments and requirements, are correctly represented.
+
+      3. Assess Clarity and Readability:
+      - Evaluate the documentation for clear, concise language.
+      - Ensure that explanations are understandable for the intended audience.
+
+      4. Verify Consistency:
+      - Check for consistent formatting, terminology, and style across all tool documentation.
+      - Ensure that similar concepts are explained in a consistent manner throughout.
+
+      5. Validate Examples and Code Snippets:
+      - Review all code examples for correctness and adherence to best practices.
+      - Verify that examples accurately demonstrate the tool's usage.
+
+      6. Identify Areas for Improvement:
+      - Note any sections that require clarification, expansion, or correction.
+      - Suggest improvements for overall documentation structure or presentation.
+
+      7. Compile Feedback:
+      - Create a detailed report of findings, including both positive aspects and areas needing improvement.
+      - Prioritize feedback based on importance and impact on documentation quality.
+
+  expected_output: >
+    A comprehensive review report for each tool's documentation, including:
+    - Overall assessment of quality and completeness
+    - Specific feedback on accuracy, clarity, and consistency
+    - Identified areas for improvement or correction
+    - Suggestions for enhancing the documentation's effectiveness
+
+    Example format:
+    ```
+    Tool: ExampleTool
+    Overall Assessment: Good quality, minor improvements needed
+
+    Strengths:
+    - Clear and concise description of tool functionality
+    - Well-structured argument explanations
+
+    Areas for Improvement:
+    1. Usage example could benefit from more detailed comments
+    2. Consider adding a troubleshooting section for common issues
+
+    Specific Feedback:
+    - Line 15: Typo in argument name ('imput_data' should be 'input_data')
+    - Section 3: Use case description could be more detailed
+
+    Recommendations:
+    1. Add more context to the second use case scenario
+    2. Include a link to the API documentation for ExampleService
+    ```
+  agent: quality_assurance_reviewer
+  context:
+    - documentation_writing_task
+
+documentation_compilation_task:
+  name: Compile Final Documentation
+  description: >
+    Combine all individual tool documentation into a single, comprehensive document for the crewAI-tools project.
+
+    Objective:
+    Integrate all reviewed and approved tool documentation into a cohesive, well-structured final
+    document that provides a complete overview of all tools in the crewAI-tools project.
+
+    Steps to Complete the Task:
+      1. Gather Approved Documentation:
+      - Collect all finalized and reviewed documentation for each tool.
+      - Ensure all necessary revisions from the quality assurance process have been implemented.
+
+      2. Design Document Structure:
+      - Create a logical structure for the comprehensive document.
+      - Include a table of contents, introduction, and sections for each tool.
+
+      3. Integrate Tool Documentation:
+      - Incorporate each tool's documentation into the main document.
+      - Maintain consistent formatting and style throughout.
+
+      4. Create Cross-References:
+      - Add internal links between related tools or concepts.
+      - Ensure easy navigation within the document.
+
+      5. Write Overview and Introduction:
+      - Craft an introduction that provides context for the crewAI-tools project.
+      - Include a brief overview of all tools and their general purposes.
+
+      6. Add Supplementary Sections:
+      - Include any necessary appendices, glossaries, or additional resources.
+      - Create an index for easy reference.
+
+      7. Format and Finalize:
+      - Apply consistent formatting throughout the document.
+      - Generate a final PDF or other specified format for distribution.
+
+  expected_output: >
+    A comprehensive, well-structured document containing:
+    - Table of Contents
+    - Introduction to crewAI-tools
+    - Overview of all tools
+    - Detailed documentation for each tool
+    - Appendices, glossary, and index (if applicable)
+
+    Example structure:
+    ```
+    crewAI-tools Documentation
+
+    Table of Contents
+
+    1. Introduction
+       1.1 About crewAI-tools
+       1.2 How to Use This Documentation
+
+    2. Tools Overview
+       2.1 Quick Reference Guide
+
+    3. Tool Documentation
+       3.1 ExampleTool
+           [Full documentation content]
+       3.2 AnotherTool
+           [Full documentation content]
+       ...
+
+    4. Appendices
+       4.1 Glossary
+       4.2 Troubleshooting Guide
+
+    5. Index
+    ```
+  agent: documentation_compiler
+  context:
+    - quality_assurance_task
+
+human_review_task:
+  name: Facilitate Human Review
+  description: >
+    Present the compiled documentation to human reviewers and manage the feedback process.
+
+    Objective:
+    Coordinate the human review of the final documentation, collect and interpret feedback, and
+    work with other agents to implement necessary changes based on human input.
+
+    Steps to Complete the Task:
+      1. Prepare for Review:
+      - Organize the compiled documentation for presentation to human reviewers.
+      - Create a structured feedback form or questionnaire for reviewers.
+
+      2. Present Documentation:
+      - Share the documentation with designated human reviewers.
+      - Provide clear instructions on the review process and expectations.
+
+      3. Collect Feedback:
+      - Gather all feedback from human reviewers.
+      - Organize and categorize the feedback for easy processing.
+
+      4. Interpret and Prioritize Feedback:
+      - Analyze the collected feedback to identify key themes and priorities.
+      - Determine which changes are critical, important, or optional.
+
+      5. Coordinate with Other Agents:
+      - Communicate necessary changes to relevant agents (e.g., Documentation Writer, Quality Assurance Reviewer).
+      - Ensure all agents understand the required modifications.
+
+      6. Oversee Implementation of Changes:
+      - Monitor the process of implementing feedback-based changes.
+      - Verify that all critical and important modifications are addressed.
+
+      7. Prepare Final Report:
+      - Summarize the review process, key feedback points, and implemented changes.
+      - Highlight any outstanding items or recommendations for future updates.
+
+  expected_output: >
+    A comprehensive report on the human review process, including:
+    - Summary of feedback received
+    - List of implemented changes
+    - Recommendations for future improvements
+    - Final status of the documentation
+
+    Example format:
+    ```
+    Human Review Report for crewAI-tools Documentation
+
+    1. Review Process Summary
+       - Number of reviewers: [X]
+       - Review period: [Start Date] to [End Date]
+
+    2. Key Feedback Points
+       2.1 Strengths Identified
+       2.2 Areas for Improvement
+
+    3. Implemented Changes
+       3.1 Critical Changes
+       3.2 Important Modifications
+       3.3 Optional Enhancements
+
+    4. Outstanding Items
+       [List of any unaddressed feedback or suggestions]
+
+    5. Recommendations for Future Updates
+       [Suggestions for ongoing documentation improvement]
+
+    6. Final Documentation Status
+       [Statement on the current state and readiness of the documentation]
+    ```
+  agent: human_liaison
+  context:
+    - documentation_compilation_task

@@ -1,6 +1,6 @@
 from crewai import Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, task, crew, llm
-from crewai_tools import ScrapeWebsiteTool, FileReadTool
+from crewai_tools import ScrapeWebsiteTool, FileReadTool, DirectoryReadTool, FileWriterTool
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from dotenv import load_dotenv
@@ -44,7 +44,7 @@ class CrewGenCrew():
     
     @llm 
     def sonnet_llm(self):
-        return ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.7)
+        return ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.7, max_tokens=8192)
 
     # ======== LLM Abstractions
 
@@ -76,7 +76,8 @@ class CrewGenCrew():
         return Agent(
             config=self.agents_config['crew_designer'],
             verbose=True,
-            memory=True,
+            # memory=True,
+            cache=True,
             allow_delegation=False,      
         )
 
@@ -85,10 +86,11 @@ class CrewGenCrew():
         return Agent(
             config=self.agents_config['agent_designer'],
             verbose=True,
-            memory=True,
+            # memory=True,
+            cache=True,
             allow_delegation=False,
             tools=[
-                FileReadTool(),
+                FileReadTool()
             ]
         )
 
@@ -97,8 +99,12 @@ class CrewGenCrew():
         return Agent(
             config=self.agents_config['task_designer'],
             verbose=True,
-            memory=True,
+            # memory=True,
+            cache=True,
             allow_delegation=False,
+            tools=[
+                FileReadTool()
+            ]
         )
 
     @agent
@@ -108,8 +114,11 @@ class CrewGenCrew():
             verbose=True,
             memory=True,
             allow_delegation=False,
+            cache=True,
             tools=[
                 FileReadTool(),
+                # DirectoryReadTool(directory="./output"),
+                # FileWriterTool()
             ]
         )
 
@@ -120,40 +129,40 @@ class CrewGenCrew():
     def crew_concept(self) -> Task:
         return Task(
             config=self.tasks_config['crew_concept'],
-            # agent=self.crew_designer(),
-            output_file='./output/crew_concept.md'
+            output_file='./output/crew_concept.md',
+            cache=True,
         )
 
     @task
     def agent_definition(self) -> Task:
         return Task(
             config=self.tasks_config['agent_definition'],
-            # agent=self.agent_designer(),
-            output_file='./output/agents.yaml'
+            output_file='./output/agents.yaml',
+            cache=True,
         )
 
     @task
     def task_definition(self) -> Task:
         return Task(
             config=self.tasks_config['task_definition'],
-            # agent=self.task_designer(),
-            output_file='./output/tasks.yaml'
+            output_file='./output/tasks.yaml',
+            cache=True,
         )
-
+    
     @task
     def crew_code(self) -> Task:
         return Task(
             config=self.tasks_config['crew_code'],
-            # agent=self.agent_coder(),
-            output_file='./output/crew.py'
+            output_file='./output/crew.py',
+            cache=True,
         )
 	
     @task
     def tool_usage(self) -> Task:
         return Task(
             config=self.tasks_config['tool_usage'],
-            # agent=self.agent_coder(),
-            output_file='./output/crew.py'
+            output_file='./output/crew.py',
+            cache=True,
         )
 	
 

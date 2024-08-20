@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 
 @CrewBase
-class CrewGenCrew():
+class GeneratedCrew():
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
@@ -75,11 +75,9 @@ class CrewGenCrew():
             config=self.agents_config['example_agent'],
             llm=self.llm,
             verbose=True,
-            memory=True,
-            allow_delegation=True,
-            tools=[
-                FileReadTool()
-            ] 
+            allow_delegation=False,
+            cache=True,
+            tools=[] 
         )
     
 
@@ -89,7 +87,8 @@ class CrewGenCrew():
     def example_task(self) -> Task:
         return Task(
             config=self.tasks_config['example_task'],
-            output_file='result.md'
+            output_file='result.md',
+            cache=True,
         )
 	
 
@@ -102,7 +101,7 @@ class CrewGenCrew():
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
-            memory=True,
+            # memory=True,
             cache=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )
