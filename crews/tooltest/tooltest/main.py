@@ -1,6 +1,6 @@
 from crewai import Agent, Task, Crew
 from langchain_openai import ChatOpenAI
-from crewai_tools import SerperDevTool, WebsiteSearchTool
+from crewai_tools import SpiderTool, WebsiteSearchTool
 
 def create_simple_agent():
     return Agent(
@@ -12,15 +12,25 @@ def create_simple_agent():
         tools=[ WebsiteSearchTool(website="https://www.heise.de/news/Weltweiter-IT-Ausfall-Flughaefen-Banken-und-Geschaefte-betroffen-9806343.html")]
     )
 
+def create_spider_agent():
+    return Agent(
+        role='Spider Agent',
+        goal='Scrape multiple webpages',
+        backstory='I am a web researcher.',
+        verbose=True,
+        llm=ChatOpenAI(model="gpt-4o-mini", temperature=0.7),
+        tools=[ SpiderTool(website="https://docs.crewai.com/tools/")],
+    )
+
 def main():
-    simple_agent = create_simple_agent()
+    spider_agent = create_spider_agent()
     task = Task(
         description="Summarize the content of a webpage",
-        agent=simple_agent,
+        agent=spider_agent,
         expected_output="a search result"
     )
     crew = Crew(
-        agents=[simple_agent],
+        agents=[spider_agent],
         tasks=[task],
         verbose=2
     )

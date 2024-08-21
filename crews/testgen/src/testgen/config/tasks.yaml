@@ -3,20 +3,21 @@ repository_analysis_task:
   description: >
     Analyze the crewAI-tools repository to identify all tool-related files and directories.
 
-    Objective:
     Access the crewAI-tools repository, and perform a thorough analysis of its structure to
     identify all files and directories related to the tools. Provide a structured list of tools and their
     locations for use by other agents in the documentation process.
 
     Steps to Complete the Task:
-      1. The source code is loacted at "./repo/crewAI-tools-main/crewai_tools/tools"
+      1. The source code is located at the relative path "./repo/crewAI-tools-main/crewai_tools/tools"
       2. Analyze Repository Structure:
       - Navigate through the repository's directory structure.
       - Identify main directories and subdirectories related to tools.
-      - Look for patterns in file naming or directory organization that indicate tool-related content.
+      - List the repo files and directories related to the tools.
+      - Only do this step once
 
       3. Identify Tool-Related Files:
-      - Scan for Python files (.py) that likely contain tool implementations.
+      Based on the files listed in the previous step, identify files that likely contains tool information.
+      - Look for Python files (.py) that likely contain tool implementations.
       - Look for accompanying documentation files (e.g., README.md, .rst files) for each tool.
       - Identify any configuration or requirement files associated with the tools.
 
@@ -50,32 +51,28 @@ repository_analysis_task:
     ```
   agent: repository_analyzer
 
-code_extraction_task:
+information_extraction_task:
   name: Extract Tool Information
   description: >
     Parse and extract essential information from each tool's source code in the crewAI-tools repository.
     The source code is loacted at "./repo/crewAI-tools-main/crewai_tools/tools"
 
     Objective:
-    Analyze the source code of each identified tool in the crewAI-tools repository. Extract key
+    Extract information for each identified tool in the crewAI-tools repository. Extract key
     information including the tool's name, description, arguments, and any specific requirements
     (e.g., API keys, libraries). Organize this information in a structured format for documentation.
 
     Steps to Complete the Task:
-      1. Access Tool Source Code:
+      1. Access Tool Information:
       - Use the structured list provided by the Repository Analyzer to locate each tool's files.
-      - Open and read the contents of each tool's README file.
-      - If there is no README file, look examine the tool's source code to extract the information.
+      - Open and read the contents of each tool's README.md file.
+      - If there is no README.md file, look examine the tool's source code to extract the information.
 
       3. Extract Key Information:
       - Identify and extract the tool's name.
       - Collect the tool's description.
       - List all arguments/parameters used by the tool, including their types and default values.
       - Note any specific requirements mentioned in the code (e.g., required libraries, API keys).
-
-      4. Analyze Import Statements:
-      - Review import statements to identify external dependencies.
-      - Note any specific version requirements for dependencies, if mentioned.
 
       5. Organize Extracted Information:
       - Compile the extracted information for each tool into a structured format.
@@ -108,7 +105,7 @@ code_extraction_task:
       - requests==2.26.0
       - numpy>=1.21.0
     ```
-  agent: code_extractor
+  agent: information_extractor
   context:
     - repository_analysis_task
 
@@ -166,7 +163,7 @@ use_case_identification_task:
     ```
   agent: use_case_specialist
   context:
-    - code_extraction_task
+    - information_extraction_task
 
 documentation_writing_task:
   name: Write Tool Documentation
@@ -259,7 +256,7 @@ documentation_writing_task:
     ```
   agent: documentation_writer
   context:
-    - code_extraction_task
+    - information_extraction_task
     - use_case_identification_task
 
 quality_assurance_task:
@@ -408,77 +405,77 @@ documentation_compilation_task:
   context:
     - quality_assurance_task
 
-human_review_task:
-  name: Facilitate Human Review
-  description: >
-    Present the compiled documentation to human reviewers and manage the feedback process.
+# human_review_task:
+#   name: Facilitate Human Review
+#   description: >
+#     Present the compiled documentation to human reviewers and manage the feedback process.
 
-    Objective:
-    Coordinate the human review of the final documentation, collect and interpret feedback, and
-    work with other agents to implement necessary changes based on human input.
+#     Objective:
+#     Coordinate the human review of the final documentation, collect and interpret feedback, and
+#     work with other agents to implement necessary changes based on human input.
 
-    Steps to Complete the Task:
-      1. Prepare for Review:
-      - Organize the compiled documentation for presentation to human reviewers.
-      - Create a structured feedback form or questionnaire for reviewers.
+#     Steps to Complete the Task:
+#       1. Prepare for Review:
+#       - Organize the compiled documentation for presentation to human reviewers.
+#       - Create a structured feedback form or questionnaire for reviewers.
 
-      2. Present Documentation:
-      - Share the documentation with designated human reviewers.
-      - Provide clear instructions on the review process and expectations.
+#       2. Present Documentation:
+#       - Share the documentation with designated human reviewers.
+#       - Provide clear instructions on the review process and expectations.
 
-      3. Collect Feedback:
-      - Gather all feedback from human reviewers.
-      - Organize and categorize the feedback for easy processing.
+#       3. Collect Feedback:
+#       - Gather all feedback from human reviewers.
+#       - Organize and categorize the feedback for easy processing.
 
-      4. Interpret and Prioritize Feedback:
-      - Analyze the collected feedback to identify key themes and priorities.
-      - Determine which changes are critical, important, or optional.
+#       4. Interpret and Prioritize Feedback:
+#       - Analyze the collected feedback to identify key themes and priorities.
+#       - Determine which changes are critical, important, or optional.
 
-      5. Coordinate with Other Agents:
-      - Communicate necessary changes to relevant agents (e.g., Documentation Writer, Quality Assurance Reviewer).
-      - Ensure all agents understand the required modifications.
+#       5. Coordinate with Other Agents:
+#       - Communicate necessary changes to relevant agents (e.g., Documentation Writer, Quality Assurance Reviewer).
+#       - Ensure all agents understand the required modifications.
 
-      6. Oversee Implementation of Changes:
-      - Monitor the process of implementing feedback-based changes.
-      - Verify that all critical and important modifications are addressed.
+#       6. Oversee Implementation of Changes:
+#       - Monitor the process of implementing feedback-based changes.
+#       - Verify that all critical and important modifications are addressed.
 
-      7. Prepare Final Report:
-      - Summarize the review process, key feedback points, and implemented changes.
-      - Highlight any outstanding items or recommendations for future updates.
+#       7. Prepare Final Report:
+#       - Summarize the review process, key feedback points, and implemented changes.
+#       - Highlight any outstanding items or recommendations for future updates.
 
-  expected_output: >
-    A comprehensive report on the human review process, including:
-    - Summary of feedback received
-    - List of implemented changes
-    - Recommendations for future improvements
-    - Final status of the documentation
+#   expected_output: >
+#     A comprehensive report on the human review process, including:
+#     - Summary of feedback received
+#     - List of implemented changes
+#     - Recommendations for future improvements
+#     - Final status of the documentation
 
-    Example format:
-    ```
-    Human Review Report for crewAI-tools Documentation
+#     Example format:
+#     ```
+#     Human Review Report for crewAI-tools Documentation
 
-    1. Review Process Summary
-       - Number of reviewers: [X]
-       - Review period: [Start Date] to [End Date]
+#     1. Review Process Summary
+#        - Number of reviewers: [X]
+#        - Review period: [Start Date] to [End Date]
 
-    2. Key Feedback Points
-       2.1 Strengths Identified
-       2.2 Areas for Improvement
+#     2. Key Feedback Points
+#        2.1 Strengths Identified
+#        2.2 Areas for Improvement
 
-    3. Implemented Changes
-       3.1 Critical Changes
-       3.2 Important Modifications
-       3.3 Optional Enhancements
+#     3. Implemented Changes
+#        3.1 Critical Changes
+#        3.2 Important Modifications
+#        3.3 Optional Enhancements
 
-    4. Outstanding Items
-       [List of any unaddressed feedback or suggestions]
+#     4. Outstanding Items
+#        [List of any unaddressed feedback or suggestions]
 
-    5. Recommendations for Future Updates
-       [Suggestions for ongoing documentation improvement]
+#     5. Recommendations for Future Updates
+#        [Suggestions for ongoing documentation improvement]
 
-    6. Final Documentation Status
-       [Statement on the current state and readiness of the documentation]
-    ```
-  agent: human_liaison
-  context:
-    - documentation_compilation_task
+#     6. Final Documentation Status
+#        [Statement on the current state and readiness of the documentation]
+#     ```
+#   agent: human_liaison
+#   context:
+#     - documentation_compilation_task
