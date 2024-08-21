@@ -1,6 +1,5 @@
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import WebsiteSearchTool
-from tools import SpiderTool
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_groq import ChatGroq
@@ -8,6 +7,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 import sys
+from tooltest.tools.spider_tool import SpiderTool
 
 load_dotenv()
 inputs = {
@@ -16,7 +16,7 @@ inputs = {
 
 # ======== LLM Definitions ========================================
 
-def deepseek_chat_llm(self):
+def deepseek_chat_llm():
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     return ChatOpenAI(
         model="deepseek-chat", 
@@ -25,7 +25,7 @@ def deepseek_chat_llm(self):
         temperature=0.0
     )
 
-def deepseek_coder_llm(self):
+def deepseek_coder_llm():
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     return ChatOpenAI(
         model="deepseek-coder", 
@@ -34,16 +34,16 @@ def deepseek_coder_llm(self):
         temperature=0.0
     )
 
-def gpt4o_llm(self):
+def gpt4o_llm():
     return ChatOpenAI(model="gpt-4o-latest", temperature=0.7)
 
-def sonnet_llm(self):
+def sonnet_llm():
     return ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.7)
 
-def groq_llm(self):
+def groq_llm():
     return ChatGroq(model="llama3-groq-70b-8192-tool-use-preview", temperature=0.7)
 
-def groq_8b_llm(self):
+def groq_8b_llm():
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
     return ChatOpenAI(
         model="llama-3.1-8b-instant",
@@ -51,29 +51,29 @@ def groq_8b_llm(self):
         api_key=GROQ_API_KEY, 
         temperature=0.7)
 
-def groq_70b_llm(self):
+def groq_70b_llm():
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
     return ChatOpenAI(model="llama3-groq-70b-8192-tool-use-preview", api_key=GROQ_API_KEY, temperature=0.7)
 
-def google_gemini_flash(self):
+def google_gemini_flash():
     return ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.7)
 
 # ======== LLM Abstractions
 
-def default_llm(self):
-    return self.deepseek_chat_llm()
+def default_llm():
+    return deepseek_chat_llm()
 
-def simple_llm(self):
-    return self.deepseek_chat_llm()
+def simple_llm():
+    return deepseek_chat_llm()
 
-def reasoning_llm(self):
-    return self.gpt4o_llm()
+def reasoning_llm():
+    return gpt4o_llm()
 
-def smart_llm(self):
-    return self.sonnet_llm()
+def smart_llm():
+    return sonnet_llm()
 
-def coding_llm(self):
-    return self.deepseek_coder_llm()
+def coding_llm():
+    return deepseek_coder_llm()
 
 # ======== Agent Definitions ========================================
 
@@ -94,7 +94,7 @@ def create_spider_agent(llm):
         backstory='An expert web researcher that uses the web extremely well.',
         verbose=True,
         llm=llm,
-        tools=[ SpiderTool()],
+        tools=[SpiderTool()],
     )
 
 # ======== Task Definitions ========================================
@@ -108,8 +108,9 @@ def create_spider_task(agent):
 
 # ======== Crew Definition ========================================
 
-def crew(self) -> Crew:
-    spider_agent = create_spider_agent()
+def crew() -> Crew:
+    llm = default_llm()
+    spider_agent = create_spider_agent(llm)
     return Crew(
         agents=[
             spider_agent
