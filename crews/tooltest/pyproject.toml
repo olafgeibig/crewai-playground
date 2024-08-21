@@ -8,9 +8,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.12,<=3.13"
 
+[tool.poetry.scripts]
+tooltest = "tooltest.main:run"
+run_crew = "tooltest.main:run"
+train = "tooltest.main:train"
+replay = "tooltest.main:replay"
+test = "tooltest.main:test"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-crew = "tooltest.main:main"
