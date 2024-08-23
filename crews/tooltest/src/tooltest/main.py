@@ -35,7 +35,7 @@ def deepseek_coder_llm():
     )
 
 def gpt4o_llm():
-    return ChatOpenAI(model="gpt-4o-latest", temperature=0.7)
+    return ChatOpenAI(model="gpt-4o-2024-08-06", temperature=0.7)
 
 def sonnet_llm():
     return ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0.7)
@@ -90,26 +90,64 @@ def create_simple_agent(llm):
 def create_spider_agent(llm):
     return Agent(
         role='Spider Agent',
-        goal='Find related information from specific URLs',
-        backstory='An expert web researcher that uses the web extremely well.',
+        goal='Crawl a website and extract the essential information',
+        backstory='An expert web researcher that uses the web extremely well. You know how to use a spider to crwal a website.',
         verbose=True,
         llm=llm,
         tools=[SpiderTool()],
+        #     url="https://python.langchain.com/v0.1/docs/integrations/tools/",
+        #     mode="crawl",
+        #     params={
+        #         'limit': 3, # max 3 pages,
+        #         'depth': 1, # max 1 depth
+        #         'metadata': True,
+        #     }
+        # )],
     )
 
 # ======== Task Definitions ========================================
 
 def create_spider_task(agent):      
     return Task(
-        description="Scrape https://spider.cloud with a limit of 1 and enable metadata",
+        description="""
+        Use the spider to get the website's content and then extract the relevant information from it.
+
+        crawl 'https://python.langchain.com/v0.1/docs/integrations/tools/'
+        with the following parameters:
+            'limit': 2
+            'depth': 1
+            'metadata': True
+
+        Hints for calling the spider:
+            - It must be True, not true
+            - Using single quotes for strings, not double quotes.
+
+        The goal is to create a documentation of the tools in markdown format. The documentation 
+        must contain the following information for each tool:
+        1. Name of the tool
+        2. Description
+        3. Arguments and their meaning
+        4. Requirements, e.g. needed API keys, needed libraries to import, config files, etc. 
+        5. Possible use cases for an AI agent for this tool
+        """,
         agent=agent,
-        expected_output="Metadata and 10 word summary of spider.cloud"
+        expected_output="""A list of tools in markdown format as follows:
+        # Tool Name
+        ## Description
+        Description of the tool
+        ## Arguments
+        Bullteted list of arguments and their meaning 
+        ## Requirements
+        Bulleted list of requirements, e.g. needed API keys, needed libraries to import, config files, etc.
+        ## Use Cases
+        Bulleted list of use cases for agents
+        """,
     )
 
 # ======== Crew Definition ========================================
 
 def crew() -> Crew:
-    llm = default_llm()
+    llm = gpt4o_llm()
     spider_agent = create_spider_agent(llm)
     return Crew(
         agents=[
