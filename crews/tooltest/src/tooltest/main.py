@@ -106,10 +106,11 @@ def create_spider_task(agent):
 
         Crawl 'https://python.langchain.com/v0.1/docs/integrations/tools/'
         with the following parameters:
-            mode: 'crawl'
-            limit: 2
-            depth: 1
-            metadata: True
+        - url: 'https://python.langchain.com/v0.1/docs/integrations/tools/'
+        - mode: 'crawl'
+        - limit: 2
+        - depth: 1
+        - metadata: True
 
         The goal is to create a documentation of the tools in markdown format. The documentation 
         must contain the following information for each tool:

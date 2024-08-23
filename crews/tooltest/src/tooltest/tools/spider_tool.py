@@ -62,7 +62,9 @@ class SpiderTool(BaseTool):
         # Remove None values from params
         params = {k: v for k, v in params.items() if v is not None}
 
-        action = self.spider.scrape_url if mode == "scrape" else self.spider.crawl_url
-        spider_docs = action(url=url, params=params)
+        if mode == "scrape":
+            spider_docs = self.spider.scrape_url(url=url, **params)
+        else:
+            spider_docs = self.spider.crawl_url(url=url, **params)
 
         return spider_docs
