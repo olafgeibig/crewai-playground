@@ -91,18 +91,10 @@ def create_spider_agent(llm):
     return Agent(
         role='Spider Agent',
         goal='Crawl a website and extract the essential information',
-        backstory='An expert web researcher that uses the web extremely well. You know how to use a spider to crwal a website.',
+        backstory='An expert web researcher that uses the web extremely well. You know how to use a spider to crawl a website.',
         verbose=True,
         llm=llm,
         tools=[SpiderTool()],
-        #     url="https://python.langchain.com/v0.1/docs/integrations/tools/",
-        #     mode="crawl",
-        #     params={
-        #         'limit': 3, # max 3 pages,
-        #         'depth': 1, # max 1 depth
-        #         'metadata': True,
-        #     }
-        # )],
     )
 
 # ======== Task Definitions ========================================
@@ -112,15 +104,12 @@ def create_spider_task(agent):
         description="""
         Use the spider to get the website's content and then extract the relevant information from it.
 
-        crawl 'https://python.langchain.com/v0.1/docs/integrations/tools/'
+        Crawl 'https://python.langchain.com/v0.1/docs/integrations/tools/'
         with the following parameters:
-            'limit': 2
-            'depth': 1
-            'metadata': True
-
-        Hints for calling the spider:
-            - It must be True, not true
-            - Using single quotes for strings, not double quotes.
+            mode: 'crawl'
+            limit: 2
+            depth: 1
+            metadata: True
 
         The goal is to create a documentation of the tools in markdown format. The documentation 
         must contain the following information for each tool:
