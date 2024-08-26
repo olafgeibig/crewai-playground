@@ -95,6 +95,7 @@ def create_spider_agent(llm):
         verbose=True,
         llm=llm,
         tools=[SpiderTool()],
+        max_execution_time=1800, 
     )
 
 # ======== Task Definitions ========================================
@@ -105,12 +106,10 @@ def create_spider_task(agent):
         Use the spider to get the website's content and then extract the relevant information from it.
 
         Crawl 'https://python.langchain.com/v0.1/docs/integrations/tools/'
-        with the following parameters:
-        - url: 'https://python.langchain.com/v0.1/docs/integrations/tools/'
-        - mode: 'crawl'
+
+        with the following options:
         - limit: 2
         - depth: 1
-        - metadata: True
 
         The goal is to create a documentation of the tools in markdown format. The documentation 
         must contain the following information for each tool:
@@ -125,19 +124,23 @@ def create_spider_task(agent):
         # Tool Name
         ## Description
         Description of the tool
-        ## Arguments
-        Bullteted list of arguments and their meaning 
+        ## Usage
+        ### Tool
+        Tool module name
+        ### Arguments
+        Bulleted list of arguments and their meaning
         ## Requirements
-        Bulleted list of requirements, e.g. needed API keys, needed libraries to import, config files, etc.
+        Bulleted list of requirements, e.g. needed API keys, needed python packages to install, config files, etc.
         ## Use Cases
         Bulleted list of use cases for agents
         """,
+        output_file="langchain_tools.md"
     )
 
 # ======== Crew Definition ========================================
 
 def crew() -> Crew:
-    llm = gpt4o_llm()
+    llm = default_llm()
     spider_agent = create_spider_agent(llm)
     return Crew(
         agents=[

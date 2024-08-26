@@ -1,28 +1,19 @@
-from typing import Optional, Any, Type, Literal
+from typing import Optional, Any, Type, Dict, Literal
 from pydantic.v1 import BaseModel, Field
 from crewai_tools.tools.base_tool import BaseTool
 
 class SpiderToolSchema(BaseModel):
     url: str = Field(description="Website URL")
+    params: Optional[Dict[str, Any]] = Field(
+        description="Set additional params. Options include:\n"
+                    "- `limit`: Optional[int] - The maximum number of pages allowed to crawl per website. Remove the value or set it to `0` to crawl all pages.\n"
+                    "- `depth`: Optional[int] - The crawl limit for maximum depth. If `0`, no limit will be applied.\n"
+                    "- `metadata`: Optional[bool] - Boolean to include metadata or not. Defaults to `False` unless set to `True`. If the user wants metadata, include params.metadata = True.\n"
+                    "- `query_selector`: Optional[str] - The CSS query selector to use when extracting content from the markup.\n"
+    )
     mode: Literal["scrape", "crawl"] = Field(
         default="scrape",
-        description="Mode, the only two allowed modes are `scrape` or `crawl`. Use `scrape` to scrape a single page and `crawl` to crawl the entire website following subpages."
-    )
-    limit: Optional[int] = Field(
-        default=None,
-        description="The maximum number of pages allowed to crawl per website. Set to 0 or omit to crawl all pages."
-    )
-    depth: Optional[int] = Field(
-        default=None,
-        description="The crawl limit for maximum depth. If 0, no limit will be applied."
-    )
-    metadata: Optional[bool] = Field(
-        default=False,
-        description="Boolean to include metadata or not."
-    )
-    query_selector: Optional[str] = Field(
-        default=None,
-        description="The CSS query selector to use when extracting content from the markup."
+        description="Mode, the only two allowed modes are `scrape` or `crawl`. Use `scrape` to scrape a single page and `crawl` to crawl the entire website following subpages. These modes are the only allowed values even when ANY params is set."
     )
 
 class SpiderTool(BaseTool):
@@ -31,7 +22,7 @@ class SpiderTool(BaseTool):
     args_schema: Type[BaseModel] = SpiderToolSchema
     api_key: Optional[str] = None
     spider: Optional[Any] = None
-    
+
     def __init__(self, api_key: Optional[str] = None, **kwargs):
         super().__init__(**kwargs)
         try:
@@ -46,25 +37,23 @@ class SpiderTool(BaseTool):
     def _run(
         self,
         url: str,
-        mode: Literal["scrape", "crawl"] = "scrape",
-        limit: Optional[int] = None,
-        depth: Optional[int] = None,
-        metadata: bool = False,
-        query_selector: Optional[str] = None
-    ) -> str:
-        params = {
-            "return_format": "markdown",
-            "limit": limit,
-            "depth": depth,
-            "metadata": metadata,
-            "query_selector": query_selector
-        }
-        # Remove None values from params
-        params = {k: v for k, v in params.items() if v is not None}
+        params: Optional[Dict[str, Any]] = None,
+        mode: Optional[Literal["scrape", "crawl"]] = "scrape"
+    ):
+        if mode not in ["scrape", "crawl"]:
+            raise ValueError(
+                "Unknown mode in `mode` parameter, `scrape` or `crawl` are the allowed modes"
+            )
 
-        if mode == "scrape":
-            spider_docs = self.spider.scrape_url(url=url, **params)
+        # Ensure 'return_format': 'markdown' is always included
+        if params:
+            params["return_format"] = "markdown"
         else:
-            spider_docs = self.spider.crawl_url(url=url, **params)
+            params = {"return_format": "markdown"}
+
+        action = (
+            self.spider.scrape_url if mode == "scrape" else self.spider.crawl_url
+        )
+        spider_docs = action(url=url, params=params)
 
         return spider_docs
