@@ -8,6 +8,13 @@ from dotenv import load_dotenv
 import os
 import sys
 from tooltest.tools.spider_tool import SpiderTool
+from langtrace_python_sdk import langtrace
+
+langtrace.init(
+    api_key = '283c7ec7b220a4bb8d862640c44278639298e5fd17c2e4c240a2db9680aec9f7', 
+    api_host="http://localhost:3000/api/trace",
+    # write_spans_to_console=True,
+)
 
 load_dotenv()
 inputs = {
@@ -160,6 +167,7 @@ def run():
     """
     Run the crew.
     """
+    # with langtrace.trace("CrewAI Task Execution"):
     crew().kickoff(inputs=inputs)
 
 

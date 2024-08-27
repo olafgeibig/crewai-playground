@@ -20,6 +20,7 @@ langchain-groq = "^0.1.6"
 langchain-openai = "^0.1.17"
 langchain-google-genai = "^1.0.9"
 spider-client = "^0.0.68"
+langtrace-python-sdk = "^2.2.25"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
