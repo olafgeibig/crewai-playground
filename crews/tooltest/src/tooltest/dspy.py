@@ -15,13 +15,19 @@ def improve_prompt(user_prompt):
     str: The improved prompt
     """
     import dspy
+    from dspy.signatures import InputField, OutputField
 
     # Define a prompt template for improving user prompts
-    class PromptImprover(dspy.Signature):
+    class PromptImprover(dspy.Module):
         """Improve a given user prompt."""
 
-        input_prompt = dspy.InputField()
-        improved_prompt = dspy.OutputField(desc="An improved version of the input prompt")
+        def __init__(self):
+            super().__init__()
+            self.input_prompt = InputField()
+            self.improved_prompt = OutputField(desc="An improved version of the input prompt")
+
+        def forward(self, input_prompt):
+            return self.improved_prompt(input_prompt)
 
     # Set up the language model
     api_key = os.getenv("OPENAI_API_KEY")
@@ -31,9 +37,10 @@ def improve_prompt(user_prompt):
     lm = dspy.OpenAI(api_key=api_key, model="gpt-3.5-turbo")
     dspy.settings.configure(lm=lm)
 
-    # Create a teleprompter using the PromptImprover signature
-    improver = dspy.Teleprompter(PromptImprover)
+    # Create an instance of PromptImprover
+    improver = PromptImprover()
 
+    # Use the improver
     result = improver(input_prompt=user_prompt)
     return result.improved_prompt
 
