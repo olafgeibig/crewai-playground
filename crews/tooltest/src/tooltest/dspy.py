@@ -15,7 +15,7 @@ def improve_prompt(user_prompt):
     str: The improved prompt
     """
     import dspy
-    from dspy.signatures import InputField, OutputField
+    from dspy.primitives import InputField, OutputField
 
     # Define a prompt template for improving user prompts
     class PromptImprover(dspy.Module):
