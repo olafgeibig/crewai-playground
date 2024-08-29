@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import dspy
 
 # Load environment variables from .env file
 load_dotenv()
@@ -14,8 +15,6 @@ def improve_prompt(user_prompt):
     Returns:
     str: The improved prompt
     """
-    import dspy
-    from dspy.primitives import InputField, OutputField
 
     # Define a prompt template for improving user prompts
     class PromptImprover(dspy.Module):
@@ -23,8 +22,8 @@ def improve_prompt(user_prompt):
 
         def __init__(self):
             super().__init__()
-            self.input_prompt = InputField()
-            self.improved_prompt = OutputField(desc="An improved version of the input prompt")
+            self.input_prompt = dspy.InputField()
+            self.improved_prompt = dspy.OutputField(desc="An improved version of the input prompt")
 
         def forward(self, input_prompt):
             return self.improved_prompt(input_prompt)
